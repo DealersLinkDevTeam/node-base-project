@@ -1,15 +1,18 @@
-# base-nodejs
-A no-frills pre-bootstraped NodeJS repo to quick start your NodeJS projects.
+# node-base-project
+A basic, pre-bootstraped NodeJS repo to quick start your NodeJS projects.
 
 ## Contains
 * NPM package.json actions
-* Gulp / Basic Gulp Script
-* ESLint / ESLint Configuration
-* Mocha / Unit.js
-* Istanbul / nyc
-* Codacy Integration / Coverage
-* Cross Env (for environment variables)
-* Basic TravisCI Configuration
+* **Build Task Runner** -- [Gulp](https://gulpjs.com/) & Basic Gulp Script
+* **Code Quality and Linting** -- [ESLint](https://eslint.org/) & ESLint Configuration
+* **Code Reformatting** -- [Prettier](https://prettier.io/) & Prettier Configuration
+* **Unit and Integration Test Runner** -- [Mocha](https://mochajs.org/)
+* **Git Commit & Push Hooks** -- [HuskyJS](https://github.com/typicode/husky) & Pre-configured hooks
+* **Test Assertion Library** -- [ChaiJS](http://www.chaijs.com/)
+* **Code Coverage Tool** -- [Istanbul](https://istanbul.js.org/) / nyc
+* **Coverage Reporting** -- [Codacy Integration](https://support.codacy.com/hc/en-us/articles/207279819-Coverage)
+* **Continuous Integration** -- Basic [TravisCI Configuration](https://docs.travis-ci.com/user/customizing-the-build/)
+* **Environment Unification** -- [Cross Env](https://www.npmjs.com/package/cross-env) (for environment variables)
 
 ## How to use this repo
 To use this repository as a base for your own projects, simply clone this repo and then remove .git folder from the
@@ -19,7 +22,7 @@ project root.
 NPM actions are included to facilitate most project needs
 
 ## Build -- `npm run build`
-The build process utilizes Gulp and the included `gulpfile.js`. The `defaul` gulp taks runs linting and testing only.
+The build process utilizes Gulp and the included `gulpfile.js`. The `default` gulp taks runs linting and testing only.
 However, this gulpfile comes preloaded with a number of other helpful tasks that include linting, testing, and code
 reformatting. Changes and additional tasks can be added based on the requirements and needs of the project's build,
 packaging and deployment goals.
@@ -68,7 +71,30 @@ Or, by updating the `package.json` file to update the coverage action as follows
   "coverage": "cross-env CODACY_PROJECT_TOKEN=<Token_from_Codacy> nyc --reporter=lcov mocha && cat ./coverage/lcov.info | codacy-coverage"
 ```
 
-When integrating with Travis you will also need to configure travis with the environment variable for building by performing:
+When integrating with Travis you will also need to configure travis with the environment variable for building by
+performing:
 ```
 travis encrypt CODACY_PROJECT_TOKEN=<Token_from_Codacy> --add
 ```
+
+### Local Coverage
+
+The coverage update can also be run locally by updating the `package.json` file by editing the
+`config.codacyProjectToken` value to the current token; and then performing:
+
+```
+npm run local-coverage
+```
+
+## Code Standards / ES6 Linting / Code Cleanup
+
+These projects use two tools, `eslint` and `prettier` to assist in conforming code to proper standards. The
+files `.eslinkrc.json` and `.prettierrc.json` come pre-configured to assist with ensuring code standards. The `prettier`
+rule set is a more restrictive subset of the `eslint` ruleset; therefore, any code formatted by `prettier` will always
+pass the linting done by `eslint`.  
+
+Code is not automatically formatted with git hooks using either the `eslint --fix` or `prettier`, instead these commands
+are left to the option of the developer to use as they are necessary, since it may be desirable to fix certain code
+linting/standards issues by hand.
+
+Please see the Wiki for more information regarding [Code Standards](https://github.com/DealersLinkDevTeam/node-base-project/wiki/Code-Standards).
