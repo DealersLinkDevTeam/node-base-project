@@ -14,11 +14,18 @@
   },
   "extends": "eslint:recommended",
   "rules": {
+    // Possible Syntax
     "no-console": "warn",
     "no-control-regex": "warn",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+
+    // Best Practices
     "block-scoped-var": "warn",
     "complexity": ["warn", 15],
     "consistent-return": "warn",
+
+
+    // Structure
     "curly": ["error", "all"],
     "default-case": "error",
     "dot-location": ["error", "property"],
@@ -29,7 +36,6 @@
     "no-caller": "error",
     "no-div-regex": "warn",
     "no-else-return": "warn",
-    "no-empty": ["error", { "allowEmptyCatch": true }],
     "no-empty-function": ["error", { "allow": ["constructors", "arrowFunctions"] }],
     "no-eval": "warn",
     "no-extra-label": "error",
