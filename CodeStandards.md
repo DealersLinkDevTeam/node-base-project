@@ -1,6 +1,82 @@
-preferable # Table of Contents
+# Code Standards
+The following is an outline of the basic code standards as recommended by the ES6 Style Guide and supplemented by the
+AirBnB style guide in places where the ES6 style guide only makes recommendations for purposes of consistent code.
 
-# Standards
+The purpose of this code style is to ensure the following:
+  * Consistent style code regardless of author
+  * Ease of maintainability when reading through code and calculating diffs
+  * Enforcement of coding best practices for code structure and performance
+  * Ease of acquiring and on-boarding new talent
+
+## Naming and Usage
+  * Identifiers must be at least 2 characters in length, but no more than 40 characters in length.
+  * Identifiers must be camelcase, but may contain a beginning or trailing underscore.
+  * Identifiers should be descriptive for what the value represents
+  * Identifiers should avoid programatic terms (e.g. 'Factory', 'Descriptor') and should describe what the object represents rather than the design pattern represented.
+
+## Structure and Formatting
+
+### Indenting
+Indentation should be performed using 2 spaces. The body `case` blocks should be indented an additional level, even if
+no block indicators are present.
+
+### Spacing
+  * Tabs are no allowed in the code outside of string literals
+  * Tabs and spaces should not be mixed
+  * Irregular whitespace characters (e.g. non-breaking space, mathimatical short-space, etc.) are not allowed in code outside of string literals and comments.
+  * Consecutive spaces are not allowed in regular expressions (use a quantifier expression instead).
+  * Consecutive spaces are not allowed in blocks of code outside of string literals and comments
+  * No spaces should appear immediately inside array literal notations between the brackets and tokens.
+  * Spaces should appear immediately inside single-line blocks between the braces and the contents of the block.
+  * Commas should have have no space before them and a single space after them.
+  * No spaces should appear immediately inside computed properties between the brackets and the value.
+  * Function calls should have no spaces between the function name and the parameter body.
+  * Function names should have no spaces between the function name and the function signature.
+  * One or more spaces should appear after the colon for a object key, but no space should be used between the key and the colon.
+  * Keywords should have spaces on either side unless they begin a statement or line, in which case they should be followed by a space
+  * No spaces should appear after the scope (dot `.`) operator when separating properties
+  * Semicolons that appear on the same line as multiple statements should have no spaces before and one space after.
+  * Blocks that begin on the same line as another statement should have a single space before the block start (`{`).
+  * No spaces should appear immediately inside parentheses between the parens and the contents.
+  * Infix operators should have spaces on both sides of the operator.
+  * Word-based unary operators should have spaces on both sides of the operator.
+  * Symbol-based unary operators should have no spaces on either side of the operator.
+  * Comments should begin with at least one space
+  * Colons inside switch-case statements should have no space before and a single-space or newline after.
+  * Template tagged literals should have no spaces between the tag and the backtick (\`).
+  * Arrow notation should have spaces on each side of the arrow.
+  * Generator functions should have a space before the star (`*`) and no space after the star.
+  * The rest/spread operator (`...`) should only have a space before it when in a list, but not other spacing otherwise.
+  * Template Expressions should have no spaces immediately inside the curly braces.
+  * Yield statements with a start should have a space before the star (`*`) and no space after the star.
+
+### New Lines
+  * Files must end with a single newline
+  * Files may begin with a single newline
+  * No more than two consecutive newlines anywhere in the file
+  * Linebreaks should use Unix-style (`\n`)
+  * When separating lines with operators, the operator should appear at the end of lines before the newline character.
+  * When separating properties or operator chains, the dot should appear at the beginning line after the newline character.
+  * Method chains longer than 2 in length must have the entire chain reformatted onto new lines.
+  * When it is necessary to separate array literals on newlines, the brackets and each token should appear on their own separate newlines.
+  * Non-single-line blocks should use the `One-True-Brace-Style` where block openings are followed by a newline and block closings are started on their own new line. Additional statements should follow the closing brace and the above guidelines if additional blocks are used.
+  * When separating lists of properties or variable declarations, commas should appear at the end of lines before the newline character.
+  * When it is necessary to separate lists of parameters in a function declarations, the parens and each parameter should appear on their own separate newlines.
+  * Block comments (`/* */`) should be preceded with a newline
+  * Object literals must be contained in a single-line or be separated as a list of properties on each on its own newline
+
+## Variable Scoping
+  * Variables should be scoped to the current block using `let` or `const`.
+  * Variables should not shadowed by using identical names within a lower scope.
+  * No redeclaration of Classes or restricted names.
+  * No variable usage before variable definition.
+  * No unused variables.
+
+## Best Practices
+  * No `console` or `debugger` code lines.
+  * No `void` code lines.
+  * No use of `eval` or implict `eval` functionality.
+  * Cyclomatic Complexity under 15 is recommended.
 
 # ESLint Rules
 The ESLint configuration uses a modified version of the [`eslint:recommended`](https://eslint.org/docs/rules/)
