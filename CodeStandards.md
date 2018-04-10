@@ -1,4 +1,4 @@
- # Table of Contents
+preferable # Table of Contents
 
 # Standards
 
@@ -9,6 +9,9 @@ file found in the root-level folder of the project.
 
 Each rule will be presented with an example of the bad code that it is designed to prevent and rationale as to
 why the pattern should be avoided.
+
+Code that triggers rules with the 🛠 symbol can be automatically fixed using the `fix` option on ESLint, by running the
+`gulp fix` task or running the `npm run fix` script.
 
 ## Syntax and Logic Errors
 These rules relate to possible syntax errors or logical errors within the code.
@@ -144,7 +147,7 @@ let pattern2 = new RegExp('\x20');
 ```
 
 
-### no-debugger (error) [recommended]
+### no-debugger (error) [recommended] 🛠
 Disallow the use of debugger.
 
 #### Rationale
@@ -334,7 +337,7 @@ try {
 ```
 
 
-### no-extra-boolean-cast (error) [recommended]
+### no-extra-boolean-cast (error) [recommended] 🛠
 Disallow unnecessary boolean casts.
 
 #### Rationale
@@ -360,7 +363,7 @@ if (foo) {
 ```
 
 
-### no-extra-semi (error) [recommended]
+### no-extra-semi (error) [recommended] 🛠
 Disallow unnecessary semicolons
 
 #### Rationale
@@ -563,7 +566,7 @@ var value = Reflect.get({ x: 1, y: 2 }, 'x');
 ```
 
 
-### no-regex-spaces (error) [recommended]
+### no-regex-spaces (error) [recommended] 🛠
 Disallow multiple spaces in regular expressions
 
 #### Rationale
@@ -668,7 +671,7 @@ let foo = function() {
 ```
 
 
-### no-unsafe-negation (error) [recommended]
+### no-unsafe-negation (error) [recommended] 🛠
 Disallow negating the left operand of relational operators
 
 #### Rationale
@@ -927,7 +930,7 @@ function doSomethingElse(condition) {
 ```
 
 
-### curly (error)
+### curly (error) 🛠
 Require following Curly Brace Conventions
 
 #### Rationale
@@ -988,7 +991,7 @@ switch (foo) {
 }
 ```
 
-### dot-location (error)
+### dot-location (error) 🛠
 Enforce newline consistency before or after dot when a newline is used.
 
 #### Rationale
@@ -1009,7 +1012,7 @@ var foo = object
 ```
 
 
-### dot-notation (error)
+### dot-notation (error) 🛠
 Require Dot Notation
 
 #### Rationale
@@ -1030,7 +1033,7 @@ var y = foo[bar];    // Property name is a variable, square-bracket notation req
 ```
 
 
-### eqeqeq (error)
+### eqeqeq (error) 🛠
 Require `===` and `!==`
 
 #### Rationale
@@ -1214,7 +1217,7 @@ return /\=foo/;
 ```
 
 
-### no-else-return (warn)
+### no-else-return (warn) 🛠
 Disallow return before else
 
 #### Rationale
@@ -1354,7 +1357,7 @@ class A {
 ```
 
 
-### no-extra-label (error)
+### no-extra-label (error) 🛠
 Disallow Unnecessary Labels
 
 #### Rationale
@@ -1428,7 +1431,7 @@ switch(foo) {
 ```
 
 
-### no-floating-decimal (error)
+### no-floating-decimal (error) 🛠
 Disallow Floating Decimals
 
 #### Rationale
@@ -1713,7 +1716,7 @@ for (var i=10; i; i--) {
 ```
 
 
-### no-multi-spaces (error)
+### no-multi-spaces (error) 🛠
 Disallow multiple spaces
 
 #### Rationale
@@ -2204,7 +2207,7 @@ bar(async () => {
 ```
 
 
-### yoda (error)
+### yoda (error) 🛠
 Disallows Yoda conditionals, that is conditions where a literal value is on the left-had side of the comparison like
 `('red' === color)`
 
@@ -2248,10 +2251,1820 @@ if (value === "red") {
 
 
 ## Variables
+Rules dealing with the use of variables
+
+
+### no-delete-var (warn)
+Disallow deleting variables
+
+#### Rationale
+The purpose of the `delete` operator is to remove a property from an object; however, using the `delete`
+operator on a variable might lead to unexpected behavior in the codebase. This is set as a warning so that
+additional code review can be performed.
+
+#### 👎 Bad code
+```js
+var x;
+delete x;
+```
+
+
+### no-shadow (warn)
+Disallow variable declarations from shadowing variables declared in the outer scope.
+
+#### Rationale
+Shadowing is the process by which a local variable shares the same name as a variable in its containing scope. This
+can cause confusion while reading the code and it’s impossible to access the global variable. This is set as a warning
+to indicated that additional code review should be performed.
+
+#### 👎 Bad code
+```js
+var a = 3;
+function b() {
+  var a = 10;
+}
+
+var b = function () {
+  var a = 10;
+}
+
+function b(a) {
+  a = 10;
+}
+b(a);
+
+if (true) {
+  let a = 5;
+}
+```
+
+#### 👍 Good code
+```js
+let a = 3;
+function b() {
+  let inner_a = 10;
+}
+```
+
+
+### no-shadow-restricted-names (error)
+Disallow Shadowing of Restricted Names
+
+#### Rationale
+ES5 §15.1.1 Value Properties of the Global Object (`NaN`, `Infinity`, `undefined`) as well as strict mode restricted
+identifiers `eval` and `arguments` are considered to be restricted names in JavaScript. Defining them to mean
+something else can have unintended consequences and confuse others reading the code.
+
+#### 👎 Bad code
+```js
+function NaN(){}
+
+!function(Infinity){};
+
+var undefined;
+
+try {} catch(eval){}
+```
+
+
+### no-undef (error) [recommended]
+Disallow Undeclared Variables
+
+#### Rationale
+This rule is designed to help locate potential ReferenceErrors resulting from misspellings of variable and parameter
+names, or accidental implicit globals (for example, from forgetting the `let` keyword in a `for` loop initializer).
+
+#### 👎 Bad code
+```js
+var a = someFunction();
+b = 10;
+```
+
+#### 👍 Good code
+```js
+var a = someFunction();
+var b = 10;
+```
+
+
+### no-undef-init (error) 🛠
+Disallow Initializing to `undefined`
+
+#### Rationale
+In JavaScript, a variable that is declared and not initialized to any value automatically gets the value of
+`undefined`; therefore, it is unnecessary to initialize a variable to `undefined` and considered bad practice.
+
+#### 👎 Bad code
+```js
+var foo = undefined;
+```
+
+
+### no-use-before-define (error)
+Disallow early use of variables
+
+#### Rationale
+In JavaScript, prior to ES6, variable and function declarations are hoisted to the top of a scope, so it’s possible to
+use identifiers before their formal declarations in code. This can be confusing and lead to code that is difficult to
+maintain. Therefore, it is considered a best practice to always declare variables and functions before using them.
+
+Further, ES6's block-level bindings (`let` and `const`) introduce a “temporal dead zone” where a `ReferenceError`
+will be thrown with any attempt to access the variable before its declaration.
+
+#### 👎 Bad code
+```js
+alert(a);
+var a = 10;
+
+f();
+function f() {}
+```
+
+#### 👍 Good code
+```js
+var a;
+a = 10;
+alert(a);
+
+function f() {}
+f(1);
+```
+
+
+### no-unused-vars (error) [recommended]
+Disallow Unused Variables
+
+#### Rationale
+Variables that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring.
+Such variables take up space in the code and can lead to confusion by readers. This rule is aimed at eliminating
+unused variables, functions, and parameters of functions.
+
+A variable is considered to be used if any of the following are true:
+
+  * It represents a function that is called (`doSomething()`)
+  * It is read (`var y = x`)
+  * It is passed into a function as an argument (`doSomething(x)`)
+  * It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
+
+A variable is *not* considered to be used if it is only ever assigned to (`var x = 5`) or declared.
+
+#### 👎 Bad code
+```js
+// It checks variables you have defined as global
+some_unused_var = 42;
+
+var x;
+
+// Write-only variables are not considered as used.
+var y = 10;
+y = 5;
+
+// A read for a modification of itself is not considered as used.
+var z = 0;
+z = z + 1;
+
+// By default, unused arguments cause warnings.
+(function(foo) {
+  return 5;
+})();
+
+// Unused recursive functions also cause warnings.
+function fact(n) {
+  if (n < 2) return 1;
+  return n * fact(n - 1);
+}
+
+// When a function definition destructures an array, unused entries from the array also cause warnings.
+function getY([x, y]) {
+  return y;
+}
+```
+
 
 ## Node.js / CommonJS
+Rules dealing with NodeJS behaviors and deprecations
 
-### rule (error)
+
+### no-buffer-constructor (error)
+Disallow use of the `Buffer()` constructor
+
+#### Rationale
+In Node.js, the behavior of the `Buffer` constructor is different depending on the type of its argument. Passing an
+argument from user input to `Buffer()` without validating its type can lead to security vulnerabilities such as remote
+memory disclosure and denial of service.  As a result the `Buffer` constructor was deprecated with ES6 and should not
+be used.
+
+#### 👎 Bad code
+```js
+new Buffer(5);
+new Buffer([1, 2, 3]);
+
+Buffer(5);
+Buffer([1, 2, 3]);
+
+new Buffer(res.body.amount);
+new Buffer(res.body.values);
+```
+
+#### 👍 Good code
+```js
+// Buffer.alloc, Buffer.allocUnsafe, and Buffer.from should be used instead
+Buffer.alloc(5);
+Buffer.allocUnsafe(5);
+Buffer.from([1, 2, 3]);
+
+Buffer.alloc(res.body.amount);
+Buffer.from(res.body.values);
+```
+
+
+### no-new-require (error)
+Disallow `new` with `require`
+
+#### Rationale
+The `require` function is used to include modules that exist in separate files. Some modules return a constructor,
+which can lead to confusing code if the `new` operator is used in conjunction with the `require` function.  For this
+reason it is considered bad practice to use `new` with `require`.
+
+#### 👎 Bad code
+```js
+var appHeader = new require('app-header');
+```
+
+#### 👍 Good code
+```js
+var AppHeader = require('app-header');
+var appHeader = new AppHeader();
+```
+
+
+### no-path-concat (error)
+Disallow string concatenation when using `__dirname` and `__filename`
+
+#### Rationale
+In Node.js, the `__dirname` and `__filename` global variables contain the directory path and the file path of the
+currently executing script file, respectively.  However, there are problems when attempting to use string concatenation
+with these variables.
+
+Firstly, you can't be sure what system the script is running on. NodeJS can be run on any computer, including Windows,
+which uses a different path separator. As a result is is possible to create an invalid path using string concatenation.
+
+Secondly, NodeJS provides the `path` module which uses system-specific information to always return the correct value
+and as a result avoiding invalid paths.
+
+#### 👎 Bad code
+```js
+var fullPath = __dirname + "/foo.js";
+
+var fullPath = __filename + "/foo.js";
+```
+
+#### 👍 Good code
+```js
+var fullPath = path.join(__dirname, "foo.js");
+
+var fullPath = path.resolve(__filename, "foo.js");
+```
+
+
+## Formatting Rules
+Rules dealing with code formatting. Most of the rules here are purely stylistic and follow the ES6 code formatting
+guidelines.
+
+
+### array-bracket-newline (error) 🛠
+Enforce line breaks after opening and before closing array brackets
+
+#### Rationale
+The ES6 style guide only requires that newlines within arrays be used consistently. This rule is configured to check
+for newlines between elements, if newlines are discovered between elements, then the array is checked for consistency;
+meaning that the brackets should also appear on their own lines.  Since both formatting types are desirable depending
+on the length of the array literal and its elements, the rule only checks for consistency.
+
+#### 👎 Bad code
+```js
+var arr = [ 1, 2,       // Line breaks are used inconsistently with the brackets
+  3, 4,
+  5 ];
+```
+
+#### 👍 Good code
+```js
+// All elements have line breaks or no elements have line breaks
+var arr1 = [ 1, 2, 3, 4, 5 ];
+var arr2 = [
+  1,
+  2,
+  3,
+  4,
+  5
+];
+```
+
+
+### array-bracket-spacing (warn) 🛠
+Disallow or enforce spaces inside of brackets
+
+#### Rationale
+The ES6 Style Guide prescribes that no spaces should be used between brackets and array elements. This applies to both
+array literals and destructuring assignments in ES6.
+
+#### 👎 Bad code
+```js
+var arr = [ 'foo', 'bar' ];
+var [ x, y ] = z;
+```
+
+#### 👍 Good code
+```js
+var arr = ['foo', 'bar'];
+var [x, y] = z;
+```
+
+
+### block-spacing (error) 🛠
+Disallow or enforce spaces inside of single line blocks
+
+#### Rationale
+The ES6 Style Guide prescribes that spaces or newlines should always be used after opening braces and before closing
+braces inside of blocks, including single-line blocks. This rule checks the space usages of braces within
+single-line blocks.
+
+#### 👎 Bad code
+```js
+function foo() {return true;}
+if (foo) { bar = 0;}
+```
+
+#### 👍 Good code
+```js
+function foo() { return true; }
+if (foo) { bar = 0; }
+```
+
+
+### brace-style (error) 🛠
+Require Brace Style of `if-else` and `try-catch-finally` blocks
+
+#### Rationale
+While no single brace style is considered technically superior to others, it agreed on that consistent styling helps
+code readability across teams. Further. the ES6 Style Guide recommends the usage of what is known as the
+'one-true-brace-style' and this styling is consistent across the majority of NPM projects.   This rule also allows
+single-line blocks
+
+#### 👎 Bad code
+```js
+// Stroustrup Formatting
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+
+try {
+  fizz();
+}
+catch (err) {
+  buzz();
+}
+
+// Allman Formatting
+if (foo)
+{
+  bar();
+}
+else
+{
+  baz();
+}
+
+try
+{
+  fizz();
+}
+catch (err)
+{
+  buzz();
+}
+```
+
+#### 👍 Good code
+```js
+// One True Brace Formatting
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+
+try {
+  fizz();
+} catch (err) {
+  buzz();
+}
+```
+
+
+### camelcase (error)
+Require Camelcase naming of variable.
+
+#### Rationale
+When it comes to naming variables, style guides generally fall into one of two camps: camelcase (`variableName`) or
+snakecase (`variable_name`).  The ES6 Style Guide prescribes the use of camelcase variables and is triggered when
+variables which are found that are non-conforming.  The rule looks for underscores (`_`) within the source, ignoring
+any leading or trailing underscores. The rule also looks for variables in all uppercase which are not determined to be
+constants. Finally, the rule also looks at assignments and not reads, because JavaScript data can be parsed from
+external sources which may require access to non-camelcase variables or properties.
+
+#### 👎 Bad code
+```js
+// ES6 Import
+import { no_camelcased } from "external-module";
+
+var my_favorite_color = "#112C85";
+
+function do_something() {
+  // ...
+}
+
+obj.do_something = function() {
+  // ...
+};
+
+var obj = {
+  my_pref: 1
+};
+```
+
+#### 👍 Good code
+```js
+// ES6 Import
+import { no_camelcased as camelCased } from "external-module";
+
+var myFavoriteColor   = "#112C85";
+var _myFavoriteColor  = "#112C85";  // Valid Leading Underscore
+var myFavoriteColor_  = "#112C85";  // Valid Trailing Underscore
+var MY_FAVORITE_COLOR = "#112C85";  // Valid Constant no reassignment beyond this point
+var foo = bar.baz_boom;
+var foo = { qux: bar.baz_boom };    // This is valid because it is a read and not an assignment
+
+obj.doSomething();
+doSomething();
+new doSomething();
+
+var { category_id: category } = query;  // Object Destructuring
+```
+
+
+### comma-spacing (error) 🛠
+Enforces spacing around commas
+
+#### Rationale
+The ES6 Style Guide recommends consistent space styling around commas and that no spaces be used before commas, and a
+single space be used after commas.
+
+#### 👎 Bad code
+```js
+var foo = 1 ,bar = 2;
+var foo = 1,bar = 2;
+```
+
+#### 👍 Good code
+```js
+var foo = 1, bar = 2;
+```
+
+
+### comma-style (error) 🛠
+Enforces Comma Styling for comma-separated lists within array literals, object literals, and variable declarations.
+
+#### Rationale
+The ES6 Style guide recommends consistent styling of newlines within comma-separated lists. Most style guides recommend
+a comma-last approach for newlines; wherein a comma precedes a newline.
+
+#### 👎 Bad code
+```js
+var foo = 1
+  , bar = 2;
+
+var foo = [
+  "apples"
+  , "oranges"
+];
+```
+
+#### 👍 Good code
+```js
+var foo = 1, bar = 2;
+
+var foo = 1,
+    bar = 2;
+
+var foo = [
+  "apples",
+  "oranges"
+];
+```
+
+
+### computed-property-spacing (error) 🛠
+Disallow or enforce spaces inside of computed properties
+
+#### Rationale
+The ES6 Style guide recommends consistent styling of spaces within computed properties. Most style guides recommend
+a disallowing any non-symbol related spaces.
+
+#### 👎 Bad code
+```js
+obj[foo ]
+obj[ 'foo']
+obj[foo[ bar ]]
+var x = { [ b ]: a };
+```
+
+#### 👍 Good code
+```js
+obj[foo]
+obj['foo']
+obj[foo[bar]]
+var x = { [b]: a };
+```
+
+
+### consistent-this (error)
+Require Consistent alias for `this`.
+
+#### Rationale
+Some libraries, such as jQuery, make it necessary to capture the current execution context in order to make it available
+later. There are many common aliases used for `this`, such as `that`, `self`, or `me`. This rule checks for is
+configured to check for `this` aliasing and that the alias is consistently assigned to `self`.
+
+#### 👎 Bad code
+```js
+var that = this;
+var me = this;
+var self = 42;
+```
+
+#### 👍 Good code
+```js
+var that = 42;
+var me = 42;
+var self = this;
+```
+
+
+### eol-last (error) 🛠
+Require or disallow newline at the end of files
+
+#### Rationale
+This rule is configured so that all files must end with an empty newline character so that they are consistent when
+performing diffs and that diffs provide cleaner results.
+
+#### 👎 Bad code
+```js
+function doSomething() {
+  var foo = 2
+}//(eof)
+```
+
+#### 👍 Good code
+```js
+function doSomething() {
+  var foo = 2
+}
+//(eof)
+```
+
+
+### func-call-spacing (error) 🛠
+Require or disallow spacing between function identifiers and their invocations
+
+#### Rationale
+The ES6 Style guide recommends consistent styling of spaces with function invocations and most style guides recommend
+the absence of spaces between the function name and the parameters.
+
+#### 👎 Bad code
+```js
+alert ('Hello');
+console.log (42);
+new Date ();
+```
+
+#### 👍 Good code
+```js
+alert('Hello');
+console.log(42);
+new Date();
+```
+
+
+### function-paren-newline (error) 🛠
+Enforce consistent line breaks inside function parentheses
+
+#### Rationale
+The ES6 style guide only requires that newlines within function parameters be used consistently. This rule is configured
+to check for newlines between parameters. If newlines are discovered between parameters, then the function signature is
+checked for consistency; meaning that the parenthesis should also appear on their own lines.  Since both formatting
+types are desirable depending on the length of the function signature and its parameters, the rule only checks for
+consistency.
+
+#### 👎 Bad code
+```js
+
+function foo(bar,
+  baz
+) {}
+
+var foo = function(
+  bar, baz
+) {};
+
+var foo = (
+  bar,
+  baz) => {};
+
+foo(bar,
+  baz);
+
+foo(
+  function() {
+    return baz;
+  }
+);
+```
+
+#### 👍 Good code
+```js
+function foo(bar, baz) {}
+
+var foo = function(
+  bar,
+  baz
+) {};
+
+var foo = (bar, baz) => {};
+
+foo(bar, baz, qux);
+
+foo(
+  bar,
+  baz,
+  qux
+);
+
+foo(function() {
+  return baz;
+});
+```
+
+
+### id-length (error)
+Enforce minimum and maximum identifier lengths
+
+#### Rationale
+Very short or very long identifier lengths can lead to code which is difficult to read and maintain. To prevent this, a
+minimum and maximum identifier length has been configured to the values of `2` and `40` respectively.
+
+#### 👎 Bad code
+```js
+var a = 1;
+var x = 2;
+var thisIsAnIdentifierWhichIsExcessiveInLength = 1;
+```
+
+#### 👍 Good code
+```js
+var itr = 0;
+var jre = 2;
+var thisIsAnIdentifierWhichIsLongButStillOK = 1;
+```
+
+
+### indent (error) 🛠
+Enforce consistent indentation
+
+#### Rationale
+As ES6 has evolved to include function currying, arrow functions, destructuring, and `Promise` chaining, the ES6 Style
+Guideline has changed to now recommend an indentation level of 2 spaces for purposes of code compactification.  `case`
+blocks are expected to be made one indention level deeper
+
+#### 👎 Bad code
+```js
+if (a) {
+    b=c;
+    function foo(d) {
+        e=f;
+    }
+}
+
+switch (a) {
+  case 1:
+  doSomething();
+  break;
+}
+```
+
+#### 👍 Good code
+```js
+if (a) {
+  b=c;
+  function foo(d) {
+    e=f;
+  }
+}
+
+switch (a) {
+  case 1:
+    foo();
+    break;
+  case 2: {
+    bar();
+    break;
+  }
+}
+
+```
+
+
+### jsx-quotes (error) 🛠
+Enforce the consistent use of either double or single quotes in JSX attributes when possible.
+
+#### Rationale
+Unlike string literals in JavaScript, string literals within JSX attributes can’t contain escaped quotes. This rule
+ensures that double-quotes are used consistently when it is possible to use them.
+
+#### 👎 Bad code
+```js
+<a b='c' />
+```
+
+#### 👍 Good code
+```js
+<a b="c" />
+<a b='"' />     // Single-quotes necessary because the literal contains a double-quote
+```
+
+
+### key-spacing (error) 🛠
+Enforce consistent spacing between keys and values in object literal properties.
+
+#### Rationale
+The ES6 Style Guideline recommends that properties in object literals have consistent spacing around the colon. This
+uses the AirBnB guidelines of no space before the colon, and at least one space after the colon.
+
+#### 👎 Bad code
+```js
+var obj = { "foo" : 42 };
+var obj = { "foo" :42 };
+var obj = { "foo":42 };
+```
+
+#### 👍 Good code
+```js
+var obj = { "foo": 42, "bar": 100 };
+var obj2 = {
+  red:    1,
+  yellow: 2,
+  green:  3,
+  blue:   4
+}
+```
+
+
+### keyword-spacing (error) 🛠
+Enforce consistent spacing before and after keywords
+
+#### Rationale
+Keywords are syntax elements of JavaScript, such as function and if. These identifiers have special meaning to the
+language and so often appear in a different color in code editors. As an important part of the language, the ES6 style
+guides recommends a single space both preceding and proceeding each keyword where the keyword, except preceding a
+a keyword at the beginning of a statement or newline.  This applies to: `as` (in module declarations), `async` (of async
+functions), `await` (of await expressions), `break`, `case`, `catch`, `class`, `const`, `continue`, `debugger`,
+`default`, `delete`, `do`, `else`, `export`, `extends`, `finally`, `for`, `from` (in module declarations), `function`,
+`get` (of getters), `if`, `import`, `in`, `instanceof`, `let`, `new`, `of` (in for-of statements), `return`, `set` (of
+setters), `static`, `super`, `switch`, `this`, `throw`, `try`, `typeof`, `var`, `void`, `while`, `with`, and `yield`.
+
+#### 👎 Bad code
+```js
+if(foo) {
+    //...
+}else if(bar) {
+    //...
+} else{
+    //...
+}
+```
+
+#### 👍 Good code
+```js
+if (foo) {
+    //...
+} else if (bar) {
+    //...
+} else {
+    //...
+}
+```
+
+
+### linebreak-style (error) 🛠
+Enforce consistent linebreak styles
+
+#### Rationale
+Differing linebreak styles can become problematic for performing diffs of code that were edited on different operating
+systems. This rule enforces consistent line endings independent of the operating system, VCS, or editor used across your
+codebase.  The rule is configured to ensure that `unix` line endings (`\n`) are used.
+
+
+### lines-around-comment (error) 🛠
+Require empty lines around comments
+
+#### Rationale
+The ES6 Style Guide recommends that newlines are placed before block comments (`/* */`) to increase readability and
+block separation.
+
+#### 👎 Bad code
+```js
+var itr = 1;
+/*
+ * Block Comments
+ */
+var jtr = 2;
+```
+
+#### 👍 Good code
+```js
+var itr = 1;
+
+/*
+ * Block Comments
+ */
+ var jtr = 2;
+```
+
+
+### lines-between-class-members (error) 🛠
+Require or disallow an empty line between class members
+
+#### Rationale
+This rule improves readability by enforcing lines between class members. It will not check empty lines before the first
+member and after the last member, since that is already taken care of by padded-blocks.
+
+#### 👎 Bad code
+```js
+class MyClass {
+  foo() {
+    //...
+  }
+  bar() {
+    //...
+  }
+}
+```
+
+#### 👍 Good code
+```js
+class MyClass {
+  foo() {
+    //...
+  }
+
+  // Line Break above spaces members
+  bar() {
+    //...
+  }
+}
+```
+
+
+### max-len (warn)
+Enforce a maximum line length
+
+#### Rationale
+Very long lines of code in any language can be difficult to read. In order to aid in readability and maintainability
+a warning is generated for lines exceeding 120 characters.
+
+#### 👎 Bad code
+```js
+var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read since this line is very long in length" }; // very long
+```
+
+#### 👍 Good code
+```js
+var foo = {
+  bar: "This is a bar.",
+  baz: {
+    qux: "This is a qux"
+  },
+  difficult: "to read since this line is very long in length"
+};
+```
+
+
+### new-cap (error)
+Require constructor names to begin with a capital letter
+
+#### Rationale
+The `new` operator in JavaScript creates a new instance of a particular type of object. That type of object is
+represented by a constructor function. Since constructor functions are just regular functions, the only defining
+characteristic is that `new` is being used as part of the call. Native JavaScript functions begin with an uppercase
+letter to distinguish those functions that are to be used as constructors from functions that are not. The ES6 style
+guide recommends following this pattern to more easily determine which functions are to be used as constructors.
+
+#### 👎 Bad code
+```js
+var friend = new person();
+```
+
+#### 👍 Good code
+```js
+var friend = new Person();
+```
+
+
+### new-parens (error) 🛠
+Require parentheses when invoking a constructor with no arguments
+
+#### Rationale
+JavaScript allows the omission of parentheses when invoking a function via the `new` keyword and the constructor has no
+arguments.  However, this syntax can lead to unintentionally obtuse code which is difficult to read or maintain. The
+ES6 Style Guide recommends that all constructors, including those with no arguments, be used with a set of parentheses.
+
+#### 👎 Bad code
+```js
+var person = new Person;
+var person = new (Person);
+```
+
+#### 👍 Good code
+```js
+var person = new Person();
+```
+
+
+### newline-per-chained-call (error)
+Require a newline after each call in a method chain
+
+#### Rationale
+Chained method calls on a single line without line breaks are valid but are more difficult to read and maintain due to
+how diffs are calculated. The ES6 Style Guide recommends that each chained method be placed on its own line for the
+purpose of code clarity. This rule ignores chains of depth 2 or less.
+
+#### 👎 Bad code
+```js
+d3.select("body").selectAll("p").data([4, 8, 15, 16, 23, 42 ]).enter();
+```
+
+#### 👍 Good code
+```js
+d3
+  .select("body")
+  .selectAll("p")
+  .data([4, 8, 15, 16, 23, 42 ])
+  .enter();
+
+// Chain Depth of 2
+d3.select("body").selectAll("p")
+```
+
+
+### no-array-constructor (error)
+Disallow creation of dense arrays using the Array constructor
+
+#### Rationale
+Use of the `Array` constructor to construct a new array is generally discouraged in favor of array literal notation
+because of the single-argument pitfall and because the `Array` global may be redefined. The exception is when the Array
+constructor is used to intentionally create sparse arrays of a specified size by giving the constructor a single
+numeric argument.
+
+#### 👎 Bad code
+```js
+Array(0, 1, 2)      // error The array literal notation [] is preferable.
+new Array(0, 1, 2)  // error The array literal notation [] is preferable.
+```
+
+#### 👍 Good code
+```js
+var arr = [0, 1, 2];
+var arr2 = Array(500);                        // Sparse Array of length 500
+var arr3 = new Array(someOtherArray.length)   // Sparse Array of programatic length
+```
+
+
+### no-lonely-if (error) 🛠
+Disallow `if` statements as the only statement within an `else` block.
+
+#### Rationale
+If an `if` statement is the only statement in the `else` block, it is often clearer to use an `else if` form.
+
+#### 👎 Bad code
+```js
+if (foo) {
+  // ...
+} else {
+  if (bar) {
+    // ...
+  }
+}
+```
+
+#### 👍 Good code
+```js
+if (foo) {
+  // ...
+} else if (bar) {
+  // ...
+}
+```
+
+
+### no-mixed-spaces-and-tabs (error) [recommended]
+Disallow mixed spaces and tabs for indentation
+
+#### Rationale
+Tabs and spaces should not be used interchangeably for indentation as such code leads to illegible code and causes
+problems for calculating diffs.
+
+#### 👎 Bad code
+```js
+function add(x, y) {
+// --->..return x + y;
+      return x + y;
+}
+```
+
+#### 👍 Good code
+```js
+// ......return x + y;
+      return x + y;
+```
+
+
+### no-multi-assign (error)
+Disallow Use of Chained Assignment Expressions
+
+#### Rationale
+Chaining the assignment of variables can lead to unexpected results and be difficult to read.
+
+#### 👎 Bad code
+```js
+var a = b = c = 5;
+var foo = bar = "baz";
+```
+
+#### 👍 Good code
+```js
+var a = 5;
+var b = 5;
+var c = 5;
+
+var foo = "baz";
+var bar = "baz";
+```
+
+
+### no-multiple-empty-lines (error) 🛠
+Disallow multiple consecutive empty lines
+
+#### Rationale
+This rule aims to reduce the scrolling required when reading through your code. It will warn when the maximum amount of
+empty lines has been exceeded.  This rule is configured for a max of 2 consecutive empty lines in the body of the code.
+It is also configured to enforce no more than 1 empty line at the begining and end of a file.
+
+#### 👎 Bad code
+```js
+var foo = 5;
+
+
+
+var bar = 3;
+```
+
+#### 👍 Good code
+```js
+var foo = 5;
+
+
+var bar = 3;
+```
+
+
+### no-new-object (error)
+Disallow Object Constructors
+
+#### Rationale
+The `Object` constructor is used to create new generic objects in JavaScript, but is no different from using the more
+concise object literal syntax. The ES6 Style Guide recommends avoiding the `Object` constructor because it leads to
+less concise code.
+
+#### 👎 Bad code
+```js
+var myObject = new Object();
+
+var myObject = new Object;
+```
+
+#### 👍 Good code
+```js
+var myObject = {};
+```
+
+
+### no-tabs (error)
+Disallow all Tabs
+
+#### Rationale
+For consistency of code, the ES6 style guide recommends that spaces and tabs not be mixed. This rule looks for any tabs
+within the source file and reports an error.  This rule does not check the tab character (`\t`) within a string literal.
+
+
+### no-unneeded-ternary (error) 🛠
+Disallow ternary (`?:`) operators when simpler alternatives exist
+
+#### Rationale
+It’s a common mistake in JavaScript to use a conditional expression to select between two Boolean values instead of
+using `!` to convert the test to a Boolean. Another common mistake is using a single variable as both the conditional
+test and the consequent. In such cases, the logical OR can be used to provide the same functionality.  This rule reports
+an error when a simpler solution exists than the ternary operators which are used.
+
+#### 👎 Bad code
+```js
+var isYes = (answer === 1) ? true : false;
+var isNo = (answer === 1) ? false : true;
+var foo = bar ? bar : 1;
+```
+
+#### 👍 Good code
+```js
+var isYes = (answer === 1);
+var isNo = (answer !== 1);
+var foo = bar || 1;
+```
+
+
+### no-whitespace-before-property (error) 🛠
+Disallow whitespace before properties
+
+#### Rationale
+JavaScript allows whitespace between objects and their properties. However, inconsistent spacing can make code harder to
+read and can lead to errors.
+
+#### 👎 Bad code
+```js
+foo [bar]
+
+foo. bar
+
+foo .bar
+
+foo. bar. baz
+
+foo. bar()
+  .baz()
+
+foo
+  .bar(). baz()
+```
+
+#### 👍 Good code
+```js
+foo.bar
+
+foo[bar]
+
+foo[ bar ]
+
+foo.bar.baz
+
+foo
+  .bar().baz()
+
+foo
+  .bar()
+  .baz()
+
+foo.
+  bar().
+  baz()
+```
+
+
+### object-curly-newline (error) 🛠
+Enforce consistent line breaks inside braces of object literals
+
+#### Rationale
+Similar to the rule for arrays and function signatures, this rule ensures that the ES6 recommendations for code
+consistency are enforced. In this case, dealing with the newlines after braces when elements also have new lines.
+
+#### 👎 Bad code
+```js
+let a = {
+};
+let b = {
+  foo: 1
+};
+let c = {
+  foo: 1, bar: 2
+};
+let d = {foo: 1,
+  bar: 2};
+let e = {foo: function() {
+  doSomething();
+}};
+```
+
+#### 👍 Good code
+```js
+let a = { };
+let b = { foo: 1 };
+let c = { foo: 1, bar: 2 };
+let d = {
+  foo: 1,
+  bar: 2
+};
+let e = {
+  foo: function() {
+    doSomething();
+  }
+};
+```
+
+
+### object-curly-spacing (error) 🛠
+Enforce consistent spacing inside braces
+
+#### Rationale
+The ES6 Style Guide recommends the consistent use of spacing within object literals, destructuring assignments, and
+import/export specifiers. The AirBnB guidelines recommend spacing within braces to improve readability.
+
+#### 👎 Bad code
+```js
+var obj = {'foo': 'bar'};
+var obj = {'foo': 'bar' };
+var obj = { baz: {'foo': 'qux'}, bar};
+var obj = {baz: { 'foo': 'qux' }, bar};
+var obj = {'foo': 'bar'
+};
+var obj = {
+  'foo':'bar'};
+var {x} = y;
+import {foo } from 'bar';
+```
+
+#### 👍 Good code
+```js
+var obj = {};
+var obj = { 'foo': 'bar' };
+var obj = { 'foo': { 'bar': 'baz' }, 'qux': 'quxx' };
+var obj = {
+  'foo': 'bar'
+};
+var { x } = y;
+import { foo } from 'bar';
+```
+
+
+### operator-assignment (warn) 🛠
+Require or disallow assignment operator shorthand where possible
+
+#### Rationale
+The ES6 Style Guide recommends for the consistent use of shorthand operators (e.g. `x += y`) if they are used. This
+rule provide a warning for additional code review when a shorthand operator could be used but was not.
+
+#### 👎 Bad code
+```js
+x = x + y;
+y = y + 1;
+```
+
+#### 👍 Good code
+```js
+x += y;
+y += 1;
+y++; // Alternative;y
+```
+
+
+### operator-linebreak (error) 🛠
+Enforce consistent linebreak style for operators
+
+#### Rationale
+The ES6 Style guide recommends for the consistent usage of line breaks and operators when lines are too long to fit on
+a single line. The AirBnB guidelines suggest that line breaks occur after operators, ternary operators are ignored.
+
+#### 👎 Bad code
+```js
+var fullHeight = borderTop
+               + innerHeight +
+               offset + inset
+               + borderBottom;
+```
+
+#### 👍 Good code
+```js
+var fullHeight = borderTop +
+                innerHeight +
+                offset +
+                inset +
+                borderBottom;
+```
+
+
+### quote-props (error) 🛠
+Require quotes around object literal property names
+
+#### Rationale
+Object literal property names can be defined in two ways: using literals or using strings. The ES6 Style Guide
+recommends that the coding style chosen is consistent throughout code, except where it is unavoidable.  This rule is
+configured to only require properties be quoted when it is necessary.
+
+#### 👎 Bad code
+```js
+var object = {
+  "a": 0,
+  "0": 0,
+  "true": 0,
+  "null": 0
+};
+```
+
+#### 👍 Good code
+```js
+var object1 = {
+  "a-b": 0,
+  "0x0": 0,
+  "1e2": 0
+};
+
+var object2 = {
+  foo: 'bar',
+  baz: 42,
+  true: 0,
+  0: 0,
+  'qux-lorem': true
+};
+
+var object3 = {
+  foo() {
+    return;
+  }
+};
+```
+
+
+### quotes (error) 🛠
+Enforce the consistent use of either backticks, double, or single quotes
+
+#### Rationale
+The ES6 Style Guide recommends consistent use of quotes throughout code, except where an alternative is unavoidable. For
+example, when using template literals. The AirBnB guide prescribes the use of of single-quotes by used for strings
+throughout a codebase.
+
+#### 👎 Bad code
+```js
+var double = "double";
+var unescaped = "a string containing 'single' quotes";
+```
+
+#### 👍 Good code
+```js
+var single = 'single';
+var backtick = `back${x}tick`; // backticks are allowed due to template literal substitution
+```
+
+
+### semi (error) 🛠
+Require or disallow semicolons instead of ASI
+
+#### Rationale
+JavaScript is unique amongst the C-like languages in that it doesn’t require semicolons at the end of each statement.
+In many cases, the JavaScript engine can determine that a semicolon should be in a certain spot and will automatically
+add it. This feature is known as automatic semicolon insertion (ASI) and is considered one of the more controversial
+features of JavaScript.  However, the rules for when ASI is invoked can be confusing and in some cases lead to
+unexpected behavior in code, syntax errors, and difficulty in code readability and maintenance; therefore, most styles
+guides enforce the use of semicolons so that the intention of the code author is clear to later maintainers.
+
+#### ASI example
+ASI will interpret the following code:
+```js
+return
+{
+  name: "ESLint"
+};
+```
+As:
+```js
+return;
+{
+  name: "ESLint"
+}
+```
+
+#### 👎 Bad code
+```js
+var name = "ESLint"
+
+object.method = function() {
+  // ...
+}
+```
+
+#### 👍 Good code
+```js
+var name = "ESLint";
+
+object.method = function() {
+  // ...
+};
+```
+
+
+### semi-spacing (error) 🛠
+Enforce spacing before and after semicolons
+
+#### Rationale
+The ES6 Style Guide recommends consistent use of spacing around semicolons throughout code. The AirBnB guide prescribes
+that a space be placed after a semicolon and no space be placed before, where semicolons appear on the same lines as
+other code, such as within a `for` loop.
+
+#### 👎 Bad code
+```js
+for (let itr=0;itr < 10 ;itr++) {
+  // Do something
+}
+```
+
+#### 👍 Good code
+```js
+for (let itr=0; itr < 10; itr++) {
+  // Do something
+}
+```
+
+
+### semi-style (error) 🛠
+Enforce location of semicolons
+
+#### Rationale
+The ES6 Style Guide recommends consistent semicolon positioning throughout code. The AirBnB guide prescribes that
+semicolons are placed at the end of lines for statement termination;
+
+#### 👎 Bad code
+```js
+foo()
+;[1, 2, 3].forEach(bar)
+
+for (
+  var i = 0
+  ; i < 10
+  ; ++i
+) {
+  foo()
+}
+```
+
+#### 👍 Good code
+```js
+foo();
+[1, 2, 3].forEach(bar);
+
+for (var i = 0; i < 10; ++i) {
+  foo();
+}
+```
+
+
+### space-before-blocks (error) 🛠
+Require Or Disallow Space Before Blocks
+
+#### Rationale
+The ES6 Style Guide recommends consistent use of space before blocks. The AirBnB guide prescribes that there should be
+one space preceding a code block.
+
+#### 👎 Bad code
+```js
+if (a){
+  b();
+}
+
+function a(){}
+
+for (;;){
+  b();
+}
+
+try {} catch(a){}
+
+class Foo{
+  constructor(){}
+}
+```
+
+#### 👍 Good code
+```js
+if (a) {
+  b();
+}
+
+if (a) {
+  b();
+} else {
+  c();
+}
+
+
+function a() { }
+
+for (;;) {
+  b();
+}
+
+try { } catch(a) { }
+```
+
+
+### space-before-function-paren (error) 🛠
+Require or disallow a space before function parenthesis
+
+#### Rationale
+The ES6 Style Guide recommends consistent use of space before function calls and signatures. The AirBnB guide prescribes
+that there should be no space in this location.
+
+#### 👎 Bad code
+```js
+function foo () {
+  // ...
+}
+
+var bar = function () {
+  // ...
+};
+
+var bar = function foo () {
+  // ...
+};
+
+class Foo {
+  constructor () {
+    // ...
+  }
+}
+
+var foo = {
+  bar () {
+    // ...
+  }
+};
+
+var foo = async () => 1
+```
+
+#### 👍 Good code
+```js
+function foo() {
+  // ...
+}
+
+var bar = function() {
+  // ...
+};
+
+var bar = function foo() {
+  // ...
+};
+
+class Foo {
+  constructor() {
+    // ...
+  }
+}
+
+var foo = {
+  bar() {
+    // ...
+  }
+};
+
+var foo = async() => 1
+```
+
+
+### space-in-parens (error) 🛠
+Disallow or enforce spaces inside of parentheses
+
+#### Rationale
+The ES6 Style Guide recommends consistent use of space within parenthesis. The AirBnB guide prescribes that there should
+be no space adjacent to the insides of parenthesis.
+
+#### 👎 Bad code
+```js
+foo( );
+foo( 'bar');
+foo('bar' );
+foo( 'bar' );
+
+var foo = ( 1 + 2 ) * 3;
+( function () { return 'bar'; }() );
+```
+
+#### 👍 Good code
+```js
+foo();
+
+foo('bar');
+
+var foo = (1 + 2) * 3;
+(function () { return 'bar'; }());
+```
+
+
+### space-infix-ops (error) 🛠
+Require spacing around infix (`=`, `+`, `-`, `*`, `/`, `%`, `^`, `&`, `|`) operators
+
+#### Rationale
+The ES6 Style Guide recommends consistent use of spaces around infix operators. The AirBnB guide prescribes that spaces
+should surround any infix operator.  This is important because it can avoid problems where the author's intention
+within the code is not clear (e.g. `sum = i+++2` -- did the author mean `i++ + 2` or `i + 2` with a typo?)
+
+#### 👎 Bad code
+```js
+a+b
+
+a+ b
+
+a +b
+
+a?b:c
+
+const a={b:1};
+
+var {a=0}=bar;
+
+function foo(a=0) { }
+```
+
+#### 👍 Good code
+```js
+a + b
+
+a       + b
+
+a ? b : c
+
+const a = {b:1};
+
+var {a = 0} = bar;
+
+function foo(a = 0) { }
+```
+
+
+### space-unary-ops (error) 🛠
+Require or disallow spaces before/after unary operators.
+
+#### Rationale
+Javascript provides two types of unary operators: words (`new`, `delete`, `typeof`, `void`, and `yield`), and symbols
+(`-`, `+`, `--`, `++`, `~`, `!`, `~~`, `!!`) operators. The ES6 Style Guide recommends consistent use of spaces around
+each type of unary operator. The AirBnB guide prescribes that spaces should surround any word-based unary operator
+and no spaces should be used around symbol-based unary operators.
+
+#### 👎 Bad code
+```js
+typeof!foo;
+
+void{foo:0};
+
+new[foo][0];
+
+delete(foo.bar);
+
+++ foo;
+
+foo --;
+
+- foo;
+
++ "3";
+
+function *foo() {
+  yield(0)
+}
+```
+
+#### 👍 Good code
+```js
+// Word unary operator "delete" is followed by a whitespace.
+delete foo.bar;
+
+// Word unary operator "new" is followed by a whitespace.
+new Foo;
+
+// Word unary operator "void" is followed by a whitespace.
+void 0;
+
+// Unary operator "++" is not followed by whitespace.
+++foo;
+
+// Unary operator "--" is not preceded by whitespace.
+foo--;
+
+// Unary operator "-" is not followed by whitespace.
+-foo;
+
+// Unary operator "+" is not followed by whitespace.
++"3";
+
+function *foo() {
+  yield (0)
+}
+```
+
+
+### spaced-comment (warn) 🛠
+Requires or disallows a whitespace (space) beginning a comment
+
+#### Rationale
+Whitespace after the `//` or `/*` makes it easier to read text in comments and many code editors will automatically
+place a space after a comment created with built-in code comment macros (`CMD`+`/` / `CTL`+`/`). Additionally,
+consistent comment formatting makes code easier to read.
+
+#### 👎 Bad code
+```js
+//Bad Comment
+/*Bad Block */
+```
+
+#### 👍 Good code
+```js
+// Good Comment
+/* Good Block */
+```
+
+
+### switch-colon-spacing (error) 🛠
+Enforce spacing around colons of switch statements
+
+#### Rationale
+Spacing around colons improves readability of `case`/`default` clauses. The ES6 Style Guide recommends consistent use of
+spaces around colons within `case` and `default` statements. The AirBnB guide prescribes that spaces should be used
+after a colon in a case and no space should be used before the case.
+
+#### 👎 Bad code
+```js
+switch (a) {
+  case 0 :break;
+  default :foo();
+}
+```
+
+#### 👍 Good code
+```js
+switch (a) {
+  case 0: foo(); break;
+  case 1:
+    bar();
+    break;
+  default:
+    baz();
+    break;
+}
+```
+
+
+### template-tag-spacing (error) 🛠
+Require or disallow spacing between template tags and their literals
+
+#### Rationale
+With ES6, it’s possible to create functions called tagged template literals where the function parameters consist of a
+template literal’s strings and expressions. The ES6 Style Guide recommends consistent code styling and the AirBnB style
+guide recommends that no spaces are used between a tag function and its template literal.
+
+#### 👎 Bad code
+```js
+function func(str) {
+  return str[0];
+}
+
+func `Hello world`;
+```
+
+#### 👍 Good code
+```js
+function func(str) {
+  return str[0];
+}
+
+func`Hello world`;
+```
+
+
+## ES6 Rules
+Rules dealing with ES6 code formatting and behaviors
+
+
+### arrow-body-style (error) 🛠
 Stuff
 
 #### Rationale
@@ -2264,84 +4077,328 @@ Stuff
 ```js
 ```
 
-## Formatting Rules
 
-## ES6 Rules
+### arrow-parens (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### arrow-spacing (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### constructor-super (error) [recommended]
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### generator-star-spacing (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### no-class-assign (error)  
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### no-confusing-arrow (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### no-const-assign (error) [recommended]
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### no-dupe-class-members (error) [recommended]
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### no-new-symbol (error) [recommended]
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### no-this-before-super (error) [recommended]
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### no-var (warn) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### object-shorthand (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### prefer-arrow-callback (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### prefer-const (warn) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### prefer-numeric-literals (warn) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### prefer-rest-params (warn)  
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### prefer-spread (warn) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### prefer-template (warn) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### require-yield (error) [recommended]
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### rest-spread-spacing (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### symbol-description (error)  
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### template-curly-spacing (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
+### yield-star-spacing (error) 🛠
+Stuff
+
+#### Rationale
+
+#### 👎 Bad code
+```js
+```
+
+#### 👍 Good code
+```js
+```
+
+
 
 ## Table of Rules
-| Rule | Level | Type | Rec. | Exceptions or Rule Values |
-| ---- | ----- | ---- | ---- | ------------------------- |
-| no-compare-neg-zero | error | Syntax | X |   |
-| no-cond-assign | error | Syntax | X |   |
-| no-console | warn | Syntax |   |   |
-| no-constant-condition | error | Syntax | X |   |
-| no-control-regex | warn | Syntax |   |   |
-| no-debugger | error | Syntax | X |   |
-| no-dupe-args | error | Syntax | X |   |
-| no-dupe-keys | error | Syntax | X |   |
-| no-duplicate-case | error | Syntax | X |   |
-| no-empty | error | Syntax |   | `allowEmptyCatch: true` |
-| no-empty-character-class | error | Syntax | X |   |
-| no-ex-assign | error | Syntax | X |   |
-| no-extra-boolean-cast | error | Syntax | X |   |
-| no-extra-semi | error | Syntax | X |   |
-| no-func-assign | error | Syntax | X |   |
-| no-inner-declarations | error | Syntax | X |   |
-| no-invalid-regexp | error | Syntax | X |   |
-| no-irregular-whitespace | error | Syntax | X |   |
-| no-obj-calls | error | Syntax | X |   |
-| no-regex-spaces | error | Syntax | X |   |
-| no-sparse-arrays | error | Syntax | X |   |
-| no-unreachable | error | Syntax | X |   |
-| no-unsafe-finally | error | Syntax | X |   |
-| no-unsafe-negation | error | Syntax | X |   |
-| use-isnan | error | Syntax | X |   |
-| valid-typeof | error | Syntax | X |   |
-| block-scoped-var | warn | Best Practice |   |   |
-| complexity | warn | Best Practice |   | 15 |
-| consistent-return | warn | Best Practice |   |   |
-| curly | error | Best Practice |   |   |
-| default-case | error | Best Practice |   |   |
-| dot-location | error | Best Practice |   |   |
-| dot-notation | error | Best Practice |   |   |
-| eqeqeq | error | Best Practice |   |   |
-| guard-for-in | warn | Best Practice |   |   |
-| no-alert | warn | Best Practice |   |   |
-| no-caller | error | Best Practice |   |   |
-| no-case-declarations | error | Best Practice | X |   |
-| no-div-regex | warn | Best Practice |   |   |
-| no-else-return | warn | Best Practice |   |   |
-| no-empty-function | error | Best Practice |   | `allow: ['constructors', 'arrowFunctions']`  |
-| no-empty-pattern | error | Best Practice | X |   |
-| no-eval | warn | Best Practice |   |   |
-| no-extra-label | error | Best Practice |   |   |
-| no-fallthrough | error | Best Practice | X |   |
-| no-floating-decimal | error | Best Practice |   |   |
-| no-global-assign | error | Best Practice | X |   |
-| no-implied-eval | error | Best Practice |   |   |
-| no-invalid-this | error | Best Practice |   |   |
-| no-iterator | error | Best Practice |   |   |
-| no-labels | error | Best Practice |   |   |
-| no-lone-blocks | error | Best Practice |   |   |
-| no-loop-func | warn | Best Practice |   |   |
-| no-multi-spaces | error | Best Practice |   |   |
-| no-multi-str | error | Best Practice |   |   |
-| no-new-func | warn | Best Practice |   |   |
-| no-octal | error | Best Practice | X |   |
-| no-octal-escape | error | Best Practice |   |   |
-| no-proto | error | Best Practice |   |   |
-| no-redeclare | error | Best Practice | X |   |
-| no-return-assign | warn | Best Practice |   |   |
-| no-script-url | warn | Best Practice |   |   |
-| no-self-assign | error | Best Practice | X |   |
-| no-self-compare | error | Best Practice |   |   |
-| no-throw-literal | error | Best Practice |   |   |
-| no-unmodified-loop-condition | warn | Best Practice |   |   |
-| no-unused-expressions | warn | Best Practice |   |   |
-| no-unused-labels | error | Best Practice | X |   |
-| no-useless-call | error | Best Practice |   |   |
-| no-useless-escape | error | Best Practice | X |   |
-| no-void | error | Best Practice |   |   |
-| no-warning-comments | warn | Best Practice |   | `terms: ['todo','fixme','note'], location: 'start'`  |
-| require-await | warn | Best Practice |   |   |
-| yoda | error | Best Practice |   |   |   |

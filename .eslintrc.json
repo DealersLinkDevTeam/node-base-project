@@ -23,9 +23,6 @@
     "block-scoped-var": "warn",
     "complexity": ["warn", 15],
     "consistent-return": "warn",
-
-
-    // Structure
     "curly": ["error", "all"],
     "default-case": "error",
     "dot-location": ["error", "property"],
@@ -63,15 +60,18 @@
     "require-await": "warn",
     "yoda": "error",
 
+    // Variables
     "no-delete-var": "warn",
     "no-shadow": "warn",
     "no-shadow-restricted-names": "error",
     "no-undef-init": "error",
     "no-use-before-define": "error",
 
+    // Node.js / CommonJS
     "no-buffer-constructor": "error",
     "no-new-require": "error",
     "no-path-concat": "error",
+
     // Formatting Rules
     "array-bracket-newline": ["error", { "multiline": true }],
     "array-bracket-spacing": ["warn", "never"],
@@ -85,7 +85,7 @@
     "eol-last": ["error", "always"],
     "func-call-spacing": ["error", "never"],
     "function-paren-newline": ["error", "multiline"],
-    "id-length": ["error", { "min": 2 }],
+    "id-length": ["error", { "min": 2, "max": 40 }],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "jsx-quotes": ["error", "prefer-double"],
     "key-spacing": ["error", {"afterColon": true, "beforeColon": false, "mode": "minimum"}],
@@ -122,6 +122,7 @@
     "spaced-comment": ["warn", "always"],
     "switch-colon-spacing": ["error", {"after": true, "before": false}],
     "template-tag-spacing": "error",
+
     // ES6 Formatting Rules
     "arrow-body-style": ["error", "always"],
     "arrow-parens": "error",
