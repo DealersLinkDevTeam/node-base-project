@@ -4065,340 +4065,865 @@ Rules dealing with ES6 code formatting and behaviors
 
 
 ### arrow-body-style (error) 🛠
-Stuff
+Require braces in arrow function body
 
 #### Rationale
+The ES6 Style Guide recommends consistent use of spacing and function bodies of arrow functions should be used
+consistently. The AirBnB guide prescribes that body style arrow functions are preferred.
 
 #### 👎 Bad code
 ```js
+let foo = () => 0
 ```
 
 #### 👍 Good code
 ```js
+let foo = (() => {
+    return 0;
+});
+
+let foo = ((retv, name) => {
+    retv[name] = true;
+    return retv;
+});
 ```
 
 
 ### arrow-parens (error) 🛠
-Stuff
+Require parens in arror function arguments
 
 #### Rationale
+In ES6, arrow functions can omit parentheses when they have exactly one parameter (arity of 1). However, this leads to
+code with inconsistent syntax and may cause problems understanding the author's intent, for example when `=>` is a typo
+for `>=`. Therefore, it is recommended that parens are used for arrow function parameters regardless of arity.
 
 #### 👎 Bad code
 ```js
+a => {};
+a => a;
+a => {'\n'};
+a.then(foo => {});
+a.then(foo => a);
+a(foo => { if (true) {} });
 ```
 
 #### 👍 Good code
 ```js
+() => {};
+(a) => {};
+(a) => a;
+(a) => {'\n'}
+a.then((foo) => {});
+a.then((foo) => { if (true) {} });
 ```
 
 
 ### arrow-spacing (error) 🛠
-Stuff
+Require space before/after arrow function’s arrow
 
 #### Rationale
+The ES6 Style Guide recommends that usage of spacing around the arrow function `=>` be consistent. The AirBnB guide
+prescribes the use of spaces both before and after the arrow.
 
 #### 👎 Bad code
 ```js
+(a)=>{}
 ```
 
 #### 👍 Good code
 ```js
+(a) => { }
 ```
 
 
 ### constructor-super (error) [recommended]
-Stuff
+Verify calls of `super()` in constructors
 
 #### Rationale
+To prevent `ReferenceErrors` and other syntax problems, it is a best practice to ensure that `super()` is always
+called from the constructor of a derived class.
 
 #### 👎 Bad code
 ```js
+class A {
+  constructor() {
+    super();  // This is a SyntaxError.
+  }
+}
+
+class A extends B {
+  constructor() { }  // Would throw a ReferenceError.
+}
+
+// Classes which inherits from a non constructor are always problems.
+class A extends null {
+  constructor() {
+    super();  // Would throw a TypeError.
+  }
+}
+
+class A extends null {
+  constructor() { }  // Would throw a ReferenceError.
+}
 ```
 
 #### 👍 Good code
 ```js
+class A {
+  constructor() { }
+}
+
+class A extends B {
+  constructor() {
+    super();
+  }
+}
 ```
 
 
 ### generator-star-spacing (error) 🛠
-Stuff
+Enforce spacing around the * in generator functions
 
 #### Rationale
+Generators are a new type of function in ES6 that can return multiple values over time. These special functions
+are indicated by placing an star(`*`) after the `function` keyword. The ES6 Style Guide recommends that usage of spacing
+around the `*` be consistent. The AirBnB guide prescribes the use of a spaces before and no space after the star.
 
 #### 👎 Bad code
 ```js
+function * generator() {
+    yield "44";
+    yield "55";
+}
 ```
 
 #### 👍 Good code
 ```js
+function *generator() {
+    yield "44";
+    yield "55";
+}
 ```
 
 
 ### no-class-assign (error)  
-Stuff
+Disallow modifying variables of class declarations
 
 #### Rationale
+Because a `ClassDeclaration` creates a variable, it is possible to modify it. However, modifying is a mistake in most
+cases and can lead to unexpected behavior and difficult to maintain code. This rule prohibits the reassigning of a
+previously defined class.
 
 #### 👎 Bad code
 ```js
+class A { }
+A = 0;
+
+class A {
+    b() {
+        A = 0;
+    }
+}
 ```
 
 #### 👍 Good code
 ```js
+let A = class A { }
+A = 0; // A is a variable.
+
+let A = class {
+    b() {
+        A = 0; // A is a variable.
+    }
+}
 ```
 
 
 ### no-confusing-arrow (error) 🛠
-Stuff
+Disallow arrow functions where they could be confused with comparisons
 
 #### Rationale
+Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns
+against using the arrow function syntax in places where it could be confused with a comparison operator. Even if the
+arguments of the arrow function are wrapped with parens.
 
 #### 👎 Bad code
 ```js
+// The intent is not clear
+var x = a => 1 ? 2 : 3;
+var x = (a) => 1 ? 2 : 3;
+var x = (a) => (1 ? 2 : 3);
+// Did the author mean this
+// var x = function (a) { return 1 ? 2 : 3 };
+// Or this
+// var x = a <= 1 ? 2 : 3;
 ```
 
 #### 👍 Good code
 ```js
+var x = (a) => { return 1 ? 2 : 3; };
 ```
 
 
 ### no-const-assign (error) [recommended]
-Stuff
+Disallow modifying variables that are declared using `const`
 
 #### Rationale
+Variables that are declared using `const` keyword can not be modified later and will raise a runtime error. This rule
+alerts when bad code exists.
 
 #### 👎 Bad code
 ```js
+const a = 0;
+a = 1;    // Bad
+a += 1;   // Bad
+++a;      // Bad
 ```
 
 #### 👍 Good code
 ```js
+const a = 0;
+console.log(a);
+
+for (const a in [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
+    console.log(a);
+}
 ```
 
 
 ### no-dupe-class-members (error) [recommended]
-Stuff
+Disallow duplicate name in class members
 
 #### Rationale
+If there are declarations of the same name in class members, the last declaration overwrites other declarations
+silently and can cause unexpected behaviors.
 
 #### 👎 Bad code
 ```js
+class Foo {
+  bar() { }
+  bar() { }
+}
+
+class Foo {
+  bar() { }
+  get bar() { }
+}
+
+class Foo {
+  static bar() { }
+  static bar() { }
+}
 ```
 
 #### 👍 Good code
 ```js
+class Foo {
+  bar() { }
+  qux() { }
+}
+
+class Foo {
+  get bar() { }
+  set bar(value) { }
+}
+
+class Foo {
+  static bar() { }
+  bar() { }
+}
 ```
 
 
 ### no-new-symbol (error) [recommended]
-Stuff
+Disallow Symbol Constructor
 
 #### Rationale
+`Symbol` is not intended to be used with the `new` operator, but to be called as a function. A `TypeError` is thrown
+when attempted at runtime.
 
 #### 👎 Bad code
 ```js
+var foo = new Symbol('foo');
 ```
 
 #### 👍 Good code
 ```js
+var foo = Symbol('foo');
+
+
+// Ignores shadowed Symbol.
+function bar(Symbol) {
+    const baz = new Symbol("baz");
+}
 ```
 
 
 ### no-this-before-super (error) [recommended]
-Stuff
+Disallow use of `this`/`super` before calling `super()` in constructors
 
 #### Rationale
+In the constructor of derived classes, if `this`/`super` are used before `super()` calls, then it raises a reference
+error. This rule checks `this`/`super` keywords in constructors, then reports those that are before `super()`.
 
 #### 👎 Bad code
 ```js
+class A extends B {
+  constructor() {
+    this.a = 0;
+    super();
+  }
+}
+
+class A extends B {
+  constructor() {
+    this.foo();
+    super();
+  }
+}
+
+class A extends B {
+  constructor() {
+    super.foo();
+    super();
+  }
+}
+
+class A extends B {
+  constructor() {
+    super(this.foo());
+  }
+}
 ```
 
 #### 👍 Good code
 ```js
+class A {
+  constructor() {
+    this.a = 0; // OK, this class doesn't have an `extends` clause.
+  }
+}
+
+class A extends B {
+  constructor() {
+    super();
+    this.a = 0; // OK, this is after `super()`.
+  }
+}
+
+class A extends B {
+  foo() {
+    this.a = 0; // OK. this is not in a constructor.
+  }
+}
 ```
 
 
 ### no-var (warn) 🛠
-Stuff
+Require `let` and `const` instead of `var`
 
 #### Rationale
+ES6 allows programmers to create variables with block scope instead of function scope using the `let` and `const`
+keywords. Block scope is common in many other programming languages and helps programmers avoid mistakes with variable
+hoisting. This rule presents a warning for additional code review.
 
 #### 👎 Bad code
 ```js
+var x = "y";
+var CONFIG = {};
 ```
 
 #### 👍 Good code
 ```js
+let x = "y";
+const CONFIG = {};
 ```
 
 
 ### object-shorthand (error) 🛠
-Stuff
+Require Object Literal Shorthand Syntax
 
 #### Rationale
+ES6 provides a concise form for defining object literal methods and properties. This syntax can make defining complex
+object literals much cleaner. However, the ES6 style guide recommends that the shorthand syntax be used consistently
+if it is used at all.
 
 #### 👎 Bad code
 ```js
+var foo = {
+    a,
+    b: "foo",
+};
 ```
 
 #### 👍 Good code
 ```js
+var foo = {
+    a: a,
+    b: "foo"
+};
+
+var bar = {
+    a,
+    b,
+};
 ```
 
 
 ### prefer-arrow-callback (error) 🛠
-Stuff
+Suggest using arrow functions as callbacks
 
 #### Rationale
+Arrow functions are suited to callbacks, because the `this` keywords in an arrow function binds to the upper scope and
+the notation of the arrow function is shorter than a function expression’s. This leads to more consistent looking code.
+
 
 #### 👎 Bad code
 ```js
+foo(function(a) { return a; });
+foo(function() { return this.a; }.bind(this));
 ```
 
 #### 👍 Good code
 ```js
+foo((a) => { return a; });
+foo(function *() { yield; });
+
+// this is not a callback.
+var foo = function foo(a) { return a; };
+
+// using `this` without `.bind(this)`.
+foo(function() { return this.a; });
+
+// recursively.
+foo(function bar(n) { return n && n + bar(n - 1); });
 ```
 
 
 ### prefer-const (warn) 🛠
-Stuff
+Suggest using `const`
 
 #### Rationale
+If a variable is never reassigned, using the `const` declaration is better. his rule is aimed at flagging variables that
+are declared using `let` keyword, but never reassigned after the initial assignment.
 
 #### 👎 Bad code
 ```js
+// it's initialized and never reassigned.
+let a = 3;
+console.log(a);
 ```
 
 #### 👍 Good code
 ```js
+// it's initialized and never reassigned.
+const a = 3;
+console.log(a);
 ```
 
 
 ### prefer-numeric-literals (warn) 🛠
-Stuff
+Disallow `parseInt()` in favor of binary, octal, and hexadecimal literals
 
 #### Rationale
+The `parseInt()` function can be used to turn binary, octal, and hexadecimal strings into integers. As binary, octal,
+and hexadecimal literals are supported in ES6, this rule encourages use of those numeric literals instead of
+`parseInt()`.
 
 #### 👎 Bad code
 ```js
+parseInt("111110111", 2) === 503;
+parseInt("767", 8) === 503;
+parseInt("1F7", 16) === 255;
 ```
 
 #### 👍 Good code
 ```js
+0b111110111 === 503;
+0o767 === 503;
+0x1F7 === 503;
+
+a[parseInt](1,2);
+
+parseInt(foo);
+parseInt(foo, 2);
 ```
 
 
 ### prefer-rest-params (warn)  
-Stuff
+Suggest using the rest parameters instead of `arguments`
 
 #### Rationale
+Since there are rest parameters in ES6, we can use that feature for variadic functions instead of the `arguments`
+variable. Further, the `arguments` does not have methods of `Array.prototype`, so its use is no longer a best practice.
 
 #### 👎 Bad code
 ```js
+function foo() {
+  console.log(arguments);
+}
+
+function foo(action) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  action.apply(null, args);
+}
+
+function foo(action) {
+  var args = [].slice.call(arguments, 1);
+  action.apply(null, args);
+}
 ```
 
 #### 👍 Good code
 ```js
+function foo(...args) {
+  console.log(args);
+}
+
+function foo(action, ...args) {
+  action.apply(null, args); // or `action(...args)`, related to the `prefer-spread` rule.
+}
+
+// Note: the implicit arguments can be overwritten.
+function foo(arguments) {
+  console.log(arguments); // This is the first argument.
+}
+function foo() {
+  var arguments = 0;
+  console.log(arguments); // This is a local variable.
+}
 ```
 
 
 ### prefer-spread (warn) 🛠
-Stuff
+Suggest using the spread operator instead of `.apply()`
 
 #### Rationale
+Before ES6, the `Function.prototype.apply()` call was needed to call variadic functions. However, in ES6 the spread
+operator is now available.  This rule enforces the use of newer syntax for consistency
 
 #### 👎 Bad code
 ```js
+var args = [1, 2, 3, 4];
+Math.max.apply(Math, args);
 ```
 
 #### 👍 Good code
 ```js
+var args = [1, 2, 3, 4];
+Math.max(...args);
 ```
 
 
 ### prefer-template (warn) 🛠
-Stuff
+Suggest using template literals instead of string concatenation
 
 #### Rationale
+ES6 introduces template literals which can be used instead of string concatenation for more code with improved
+readability. This rule presents an error when traditional concatenation has been done for code review.
 
 #### 👎 Bad code
 ```js
+var str = "Hello, " + name + "!";
 ```
 
 #### 👍 Good code
 ```js
+var str = `Hello, ${name}!`;
 ```
 
 
 ### require-yield (error) [recommended]
-Stuff
+Disallow generator functions that do not have `yield`
 
 #### Rationale
+This rule generates warnings for generator functions that do not have the `yield` keyword, since the lack of the `yield`
+keyword does not follow ES6 best practices.
 
 #### 👎 Bad code
 ```js
+function* foo() {
+  return 10;
+}
 ```
 
 #### 👍 Good code
 ```js
+function *foo() {
+  yield 5;
+  return 10;
+}
+
+function foo() {
+  return 10;
+}
 ```
 
 
 ### rest-spread-spacing (error) 🛠
-Stuff
+Enforce spacing between rest and spread operators and their expressions
 
 #### Rationale
+ES6 introduced the rest and spread operators, which expand an iterable structure into its individual parts. However,
+ES7 introduced the ability to use the rest and spread operators as a catch all in object destructuring.  This rule
+enforces the preceding whitespace to the spread operator as outlined in the AirBnB style guide.
 
 #### 👎 Bad code
 ```js
+fn(... args)
+[... arr, 4, 5, 6]
+let [a, b, ... arr] = [1, 2, 3, 4, 5];
+function fn(... args) { console.log(args); }
+let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };
+let n = { x, y, ... z };
 ```
 
 #### 👍 Good code
 ```js
+fn(...args)
+[...arr, 4, 5, 6]
+let [a, b, ...arr] = [1, 2, 3, 4, 5];
+function fn(...args) { console.log(args); }
+let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
+let n = { x, y, ...z };
 ```
 
 
 ### symbol-description (error)  
-Stuff
+Require symbol description
 
 #### Rationale
+`Symbol` is a new base class in ES6 and may have optional descriptions. This rule promotes cleaner use of `Symbol` so
+that when one is logged the description is output.
 
 #### 👎 Bad code
 ```js
+var foo = Symbol();
 ```
 
 #### 👍 Good code
 ```js
+var foo = Symbol("some description");
+
+var someString = "some description";
+var bar = Symbol(someString);
 ```
 
 
 ### template-curly-spacing (error) 🛠
-Stuff
+Enforce Usage of Spacing in Template Strings
 
 #### Rationale
+The ES6 Style Guide recommends consistent use of spacing around expression indicators (`${`, `}`) within template
+literals. The AirBnB guide prescribes that no spaces should be used immediately inside the expression indicators.
 
 #### 👎 Bad code
 ```js
+`hello, ${ people.name}!`;
+`hello, ${people.name }!`;
+
+`hello, ${ people.name }!`;
 ```
 
 #### 👍 Good code
 ```js
+`hello, ${people.name}!`;
+
+`hello, ${
+    people.name
+}!`;
 ```
 
 
 ### yield-star-spacing (error) 🛠
-Stuff
+Enforce spacing around the `*` in `yield*` expressions
 
 #### Rationale
+The ES6 Style Guide recommends consistent use of spacing around the `*` in `yield*` expressions within Generators. The
+The AirBnB guide prescribes that a space should precede and no space should proceed the `*` in `yield*` expressions.
 
 #### 👎 Bad code
 ```js
+function* generator() {
+  yield* other();
+}
+
+function * generator() {
+  yield * other();
+}
+
+function*generator() {
+  yield*other();
+}
 ```
 
 #### 👍 Good code
 ```js
+function *generator() {
+  yield *other();
+}
 ```
 
 
 
 ## Table of Rules
+| Rule | Level | Type | Rec. | Exceptions or Rule Values |
+| ---- | ----- | ---- | ---- | ------------------------- |
+| no-compare-neg-zero | error | Syntax | X |   |
+| no-cond-assign | error | Syntax | X |   |
+| no-console | warn | Syntax |   |   |
+| no-constant-condition | error | Syntax | X |   |
+| no-control-regex | warn | Syntax |   |   |
+| no-debugger | error | Syntax | X |   |
+| no-dupe-args | error | Syntax | X |   |
+| no-dupe-keys | error | Syntax | X |   |
+| no-duplicate-case | error | Syntax | X |   |
+| no-empty | error | Syntax |   | `allowEmptyCatch: true` |
+| no-empty-character-class | error | Syntax | X |   |
+| no-ex-assign | error | Syntax | X |   |
+| no-extra-boolean-cast | error | Syntax | X |   |
+| no-extra-semi | error | Syntax | X |   |
+| no-func-assign | error | Syntax | X |   |
+| no-inner-declarations | error | Syntax | X |   |
+| no-invalid-regexp | error | Syntax | X |   |
+| no-irregular-whitespace | error | Syntax | X |   |
+| no-obj-calls | error | Syntax | X |   |
+| no-regex-spaces | error | Syntax | X |   |
+| no-sparse-arrays | error | Syntax | X |   |
+| no-unreachable | error | Syntax | X |   |
+| no-unsafe-finally | error | Syntax | X |   |
+| no-unsafe-negation | error | Syntax | X |   |
+| use-isnan | error | Syntax | X |   |
+| valid-typeof | error | Syntax | X |   |
+| block-scoped-var | warn | Best Practice |   |   |
+| complexity | warn | Best Practice |   | 15 |
+| consistent-return | warn | Best Practice |   |   |
+| curly | error | Best Practice |   |   |
+| default-case | error | Best Practice |   |   |
+| dot-location | error | Best Practice |   |   |
+| dot-notation | error | Best Practice |   |   |
+| eqeqeq | error | Best Practice |   |   |
+| guard-for-in | warn | Best Practice |   |   |
+| no-alert | warn | Best Practice |   |   |
+| no-caller | error | Best Practice |   |   |
+| no-case-declarations | error | Best Practice | X |   |
+| no-div-regex | warn | Best Practice |   |   |
+| no-else-return | warn | Best Practice |   |   |
+| no-empty-function | error | Best Practice |   | `allow: ['constructors', 'arrowFunctions']`  |
+| no-empty-pattern | error | Best Practice | X |   |
+| no-eval | warn | Best Practice |   |   |
+| no-extra-label | error | Best Practice |   |   |
+| no-fallthrough | error | Best Practice | X |   |
+| no-floating-decimal | error | Best Practice |   |   |
+| no-global-assign | error | Best Practice | X |   |
+| no-implied-eval | error | Best Practice |   |   |
+| no-invalid-this | error | Best Practice |   |   |
+| no-iterator | error | Best Practice |   |   |
+| no-labels | error | Best Practice |   |   |
+| no-lone-blocks | error | Best Practice |   |   |
+| no-loop-func | warn | Best Practice |   |   |
+| no-multi-spaces | error | Best Practice |   |   |
+| no-multi-str | error | Best Practice |   |   |
+| no-new-func | warn | Best Practice |   |   |
+| no-octal | error | Best Practice | X |   |
+| no-octal-escape | error | Best Practice |   |   |
+| no-proto | error | Best Practice |   |   |
+| no-redeclare | error | Best Practice | X |   |
+| no-return-assign | warn | Best Practice |   |   |
+| no-script-url | warn | Best Practice |   |   |
+| no-self-assign | error | Best Practice | X |   |
+| no-self-compare | error | Best Practice |   |   |
+| no-throw-literal | error | Best Practice |   |   |
+| no-unmodified-loop-condition | warn | Best Practice |   |   |
+| no-unused-expressions | warn | Best Practice |   |   |
+| no-unused-labels | error | Best Practice | X |   |
+| no-useless-call | error | Best Practice |   |   |
+| no-useless-escape | error | Best Practice | X |   |
+| no-void | error | Best Practice |   |   |
+| no-warning-comments | warn | Best Practice |   | `terms: ['todo','fixme','note'], location: 'start'`  |
+| require-await | warn | Best Practice |   |   |
+| yoda | error | Best Practice |   |   |
+| no-delete-var | warn | Variables |   |   |
+| no-shadow | warn | Variables |   |   |
+| no-shadow-restricted-names | error | Variables |   |   |
+| no-undef | error | Variables | X |   |
+| no-undef-init | error | Variables |   |   |
+| no-use-before-define | error | Variables |   |   |
+| no-unused-vars | error | Variables | X |   |
+| no-buffer-constructor | error | NodeJS |   |   |
+| no-new-require | error | NodeJS |   |   |
+| no-path-concat | error | NodeJS |   |   |
+| array-bracket-newline | error | Formatting |   | `multiline: true` |
+| array-bracket-spacing | warn | Formatting |   | `'never'` |
+| block-spacing | error | Formatting |   | `'always'` |
+| brace-style | error | Formatting |   | `'1tbs', { allowSingleLine: true }` |
+| camelcase | error | Formatting |   | `properties: 'always'`|
+| comma-spacing | error | Formatting |   | `before: false, after: true` |
+| comma-style | error | Formatting |   | `'last'` |
+| computed-property-spacing | error | Formatting |   | `'never'` |
+| consistent-this | error | Formatting |   | `'self'` |
+| eol-last | error | Formatting |   | `'always'` |
+| func-call-spacing | error | Formatting |   | `'never'` |
+| function-paren-newline | error | Formatting |   | `'multiline'` |
+| id-length | error | Formatting |   | `min: 2, max: 40` |
+| indent | error | Formatting |   | `2, { SwitchCase: 1 }` |
+| jsx-quotes | error | Formatting |   | `'prefer-double'` |
+| key-spacing | error | Formatting |   | `afterColon: true, beforeColon: false, mode: 'minimum'` |
+| keyword-spacing | error | Formatting |   | `before: true, after: true` |
+| linebreak-style | error | Formatting |   | `'unix'` |
+| lines-around-comment | error | Formatting |   | `beforeBlockComment: true` |
+| lines-between-class-members | error | Formatting |   | `'always'` |
+| max-len | warn | Formatting |   | `code: 120` |
+| new-cap | error | Formatting |   |  |
+| new-parens | error | Formatting |   |  |
+| newline-per-chained-call | error | Formatting |   | `ignoreChainWithDepth: 1` |
+| no-array-constructor | error | Formatting |   |  |
+| no-lonely-if | error | Formatting |   |  |
+| no-mixed-spaces-and-tabs | error | Formatting | X |   |
+| no-multi-assign | error | Formatting |   |  |
+| no-multiple-empty-lines | error | Formatting |   | `max: 2, maxEOF: 1, maxBOF: 1` |
+| no-new-object | error | Formatting |   |  |
+| no-tabs | error | Formatting |   |  |
+| no-unneeded-ternary | error | Formatting |   |  |
+| no-whitespace-before-property | error | Formatting |   |  |
+| object-curly-newline | error | Formatting |   | `multiline: true` |
+| object-curly-spacing | error | Formatting |   | `'always'` |
+| operator-assignment | warn | Formatting |   |   |
+| operator-linebreak | error | Formatting |   | `'after', { overrides: { '?': 'none', ':': 'none' } }` |
+| quote-props | error | Formatting |   | `'as-needed'` |
+| quotes | error | Formatting |   | `'single'` |
+| semi | error | Formatting |   |  |
+| semi-spacing | error | Formatting |   | `before: false, after: true` |
+| semi-style | error | Formatting |   | `'last'` |
+| space-before-blocks | error | Formatting |   |  |
+| space-before-function-paren | error | Formatting |   | `'never'` |
+| space-in-parens | error | Formatting |   |  |
+| space-infix-ops | error | Formatting |   |  |
+| space-unary-ops | error | Formatting |   | `words: true, nonwords: false` |
+| spaced-comment | warn | Formatting |   | `'always'` |
+| switch-colon-spacing | error | Formatting |   | `after: true, before: false` |
+| template-tag-spacing | error | Formatting |   |  |
+| arrow-body-style | error | ES6 |   | `'always'` |
+| arrow-parens | error | ES6 |   |   |  
+| arrow-spacing | error | ES6 |   | `before: true, after: true` |
+| constructor-super | error | ES6 | X |   |  
+| generator-star-spacing | error | ES6 |   | `before: true, after: false` |
+| no-class-assign | error | ES6 | X |   |  
+| no-confusing-arrow | error | ES6 |   |   |  
+| no-const-assign | error | ES6 | X |   |  
+| no-dupe-class-members | error | ES6 | X |   |  
+| no-new-symbol | error | ES6 | X |   |  
+| no-this-before-super | error | ES6 | X |   |  
+| no-var | warn | ES6 |   |   |  
+| object-shorthand | error | ES6 |   | `'consistent'` |
+| prefer-arrow-callback | error | ES6 |   |   |  
+| prefer-const | warn | ES6 |   |   |  
+| prefer-numeric-literals | warn | ES6 |   |   |  
+| prefer-rest-params | warn | ES6 |   |   |  
+| prefer-spread | warn | ES6 |   |   |  
+| prefer-template | warn | ES6 |   |   |  
+| require-yield | error | ES6 | X |   |  
+| rest-spread-spacing | error | ES6 |   |   |  
+| symbol-description | error | ES6 |   |   |  
+| template-curly-spacing | error | ES6 |   |   |  
+| yield-star-spacing | error | ES6 |   | `before: true, after: false` |
