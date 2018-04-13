@@ -154,7 +154,7 @@ function doSomething() {
   * Function declarations should have no spaces between the function name and the function signature.
   * Function calls should have no spaces between the function name and the parameter body.
   * Arrow notation should have spaces on each side of the arrow.
-  * Template tagged literals should have no spaces between the tag and the backtick (\`).
+  * Template tagged literals should have no spaces between the tag and the back-tick (\`).
   * Template Expressions should have no spaces immediately inside the curly braces.
   * The rest/spread operator (`...`) should only have a space before it when in a list, but not other spacing otherwise.
   * Generator functions should have a space before the star (`*`) and no space after the star.
@@ -612,7 +612,7 @@ The following section contains best coding practices and design patterns.
       * keys in object literals -- `obj = { a: 1, a: 1 }`
       * cases in `switch` statements
       * class members -- `class Foo { bar() { }; bar() { }; }`
-  * No Regular expression irreularities, including:
+  * No Regular expression irregularities, including:
       * empty character class in Regular Expressions -- `/^abc[]/`
       * ASCII control characters in Regular Expressions -- `\x18`
       * invalid Regular Expressions
@@ -629,14 +629,16 @@ The following section contains best coding practices and design patterns.
   * No empty uncommented blocks, including:
       * empty functions without -- `function foo { }`
       * empty conditional or control blocks -- `if (foo) { }`
-      * case fallthrough -- `switch(x) { case a: doSomething(); case b: doSomething(); break; }`
+      * case fall-through -- `switch(x) { case a: doSomething(); case b: doSomething(); break; }`
   * No unmodified loop conditions -- `foo = true; while (foo) { /* foo never modified */ }`
   * No constant conditional structures -- `while (true) { }`
-  * No lonely `if` statement inside of an `else` statement -- use `else if` insteads
-  * No `else` statement when the `if` statement performs a `return` as the `else` statement is redundant.
+  * No unnecessary and inconsistent `if-else` control blocks, including:
+      * lonely `if` statement inside of an `if` statement -- use `if` with compound comparison instead `if (a && b) { }`
+      * lonely `if` statement inside of an `else` statement -- use `else if` instead
+      * `else` statement after `if` statement with a `return` as the subsequent `else` statement is redundant
   * No `async` when `await` is missing
   * No use of `this` outside classes or class-like objects
-  * No path concatination with `__dirname` or `__filename` -- `let fullPath = __dirname + '/foo.js';` -- use `path.join(__dirname, ...);` instead
+  * No path concatenation with `__dirname` or `__filename` -- `let fullPath = __dirname + '/foo.js';` -- use `path.join(__dirname, ...);` instead
 
 ### Confusing Syntax and Gotchas
   * No confusing syntax, including:
@@ -659,7 +661,7 @@ The following section contains best coding practices and design patterns.
       * extra boolean cast -- `if (Boolean(foo))`
       * unneeded ternary operators -- `let isYes = (answer === 1) ? true : false`
       * assignment operators in conditional structures -- `if (a = 1) { }`
-  * No confusing assignment statments, including:
+  * No confusing assignment statements, including:
       * floating decimals -- `let [x, y, z] = [.5, 2., -.7]`
       * multi-assign statements -- `let a = b = c = 5;`
       * empty destructuring patterns -- `let {} = foo; let [] = bar`
