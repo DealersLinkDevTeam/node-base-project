@@ -566,80 +566,25 @@ try {
   let foo = undefined;
 ```
 
-## Best Practices
-  * No `console` or `debugger` code lines.
-  * No `alert`, `confirm`, or `prompt` code lines in client-side code
-  * No `void` code lines.
-  * No `caller` or `callee` code lines they are deprecated
-  * No use of `eval` or implicit `eval` functionality.
+## Design Pattern
+The following section contains best coding practices and design patterns.
+
+### Best Practices
   * Comments with `TODO`, `FIXME`, `NOTE` should be removed before pushing to production
-  * Cyclomatic Complexity under 15 is recommended.
-  * Use `===` and `!==` instead of `==` and `!=`
-  * No comparisons for a literal `-0`
-  * No assignment operators in conditional structures -- `if (a = 1) { }`
-  * No constant conditional structures -- `while (true) { }`
-  * No duplicate function arguments in function signatures -- `function foo(a, b, a) { }`
-  * No duplicate keys in object literals -- `obj = { a: 1, a: 1 }`
-  * No duplicate cases in `switch` statements
-  * No empty conditional or control blocks -- `if (foo) { }` -- without comments
-  * No empty character class in Regular Expressions -- `/^abc[]/`
-  * No control characters in Regular Expressions -- `\x18`
-  * No invalid Regular Expressions
-  * No Regular Expressions that looks like division -- `/=foo` -- use `/\=foo` instead
-  * No useless escape characters in Strings, templates, and Regular Expressions -- `"\'"`, `'\"'`, `/\@/`, etc.
-  * No exception reassignment in `catch` blocks -- `catch(err) { err = 1; }`
-  * No extra boolean cast -- `if (Boolean(foo))`
-  * No extra semicolons -- `a++;;`
-  * No function reassignment -- `function foo() { }; foo = bar;`
-  * No unreachable code -- `function x() { return 1; let y = 1; }`
-  * No unsafe `finally` in `try-catch` block -- `finally { throw new Error; }`
-  * No unsafe negotiations -- `-a + b` -- did the author mean `b - a` or `-(a + b)`?
-  * No comparison operators for `NaN` uses `isNaN` instead
-  * No variable declarations within `switch-case` blocks
+  * Recommend that cyclomatic complexity is kept under 15
   * Require used of valid `typeof` comparisons
-  * Require consistent return values
+  * Require consistent return values  
   * Require a `default` case in `switch` blocks
-  * No `else` statement when the `if` statement performs a `return` as the `else` statement is redundant.
-  * No lonely `if` statement inside of an `else` statement -- use `else if` insteads
-  * No empty functions without a comment -- `function foo { }`
-  * No empty destructuring patters -- `let {} = foo; let [] = foo`
-  * No labels -- `gotoLabel:`
-  * No case fallthrough without a comment -- `switch(x) { case a: doSomething(); case b: doSomething(); break; }`
-  * No floating decimals -- `let [x, y, z] = [.5, 2., -.7]`
-  * No use of `this` outside classes or class-like objects
-  * No use of `__iterator__` is it deprecated
-  * No use of `__proto__` it was removed in ES3.1
-  * No `new Function` declarations
-  * No `new Buffer` declarations
-  * No `new require('')` declarations
-  * No `new Object` declarations
-  * No `new Symbol` declarations
-  * No function declarations within loops -- `for (let x = 0; x < 10; x++) { (function() { return x; })(); }`
   * No multiline strings -- Use template literals instead
-  * No Octal literal numeral -- `let num = 071` -- they are deprecated. `let num = \o71` is okay though.
-  * No Octal esacpes in strings -- `let foo = '\251';` -- they are deprecated.
-  * No `throw` of literal values -- `throw 1;` -- `Error` or an object should be thrown
-  * No unmodified loop conditions -- `foo = true; while (foo) { /* foo never modified */ }`
-  * No expressions which do no alter execution state -- `0; {0}`
-  * No `.call()` or `.apply()` code lines that do nothing -- `foo.call(undefined, 1,2, 3);`
-  * No `async` when `await` is missing
-  * No yoda conditions -- `if ('red' === color) { }`
-  * No path concatination with `__dirname` or `__filename` -- `let fullPath = __dirname + '/foo.js';` -- use `path.join(__dirname, ...);` instead
   * Require `this` to be aliased to `self` when context passing`
   * Require JSX Code to use Double-Quotes where possible
   * Require normal strings to use Single-Quotes where possible
   * Recommend code lines be less than 120 characters in length
-  * No absent parenthesis in `new` statements -- `new Person`
-  * No multi-assign statements -- `let a = b = c = 5;`
-  * No unneeded ternary operators -- `let isYes = (answer === 1) ? true : false`
-  * Require shorthand assignment operators when possible -- `x += y;` instead of `x = x + 1;`
   * No quoted properties unless is it necessary -- `var obj = { "a": 1 };`
+  * Require shorthand assignment operators when possible -- `x += y;` instead of `x = x + 1;`
   * Require semicolons at line/statement ending
   * Require `super()` is called in the constructor of extended classes
   * Require `super()` is called before `this` in the constructor of extended classes
-  * No confusing arrow function -- `var x = a => 1 ? 2 : 3;` did the author mean `function (a) { return 1 ? 2 : 3 };` or `var x = a <= 1 ? 2 : 3;`
-  * No const assignment -- `const a = 1; a = 2;`
-  * No duplicate class members -- `class Foo { bar() { }; bar() { }; }`
   * Require consistency with object literal shorthand, to either always or never use it within a project
   * Require arrow functions instead of long-form function declarations for callback functions
   * Recommend `const` is used in places where a variable is never reassigned
@@ -650,6 +595,82 @@ try {
   * Require `yield` in generator functions
   * Require description when using `Symbol`
 
+### Poor Design and Bad Syntax
+  * No extra semicolons -- `a++;;`
+  * No expressions which do no alter execution state -- `0; {0}`
+  * No `console` or `debugger` code lines in production code.
+  * No `alert`, `confirm`, or `prompt` code lines in client-side code
+  * No use of `eval` or implicit `eval` functionality including:
+      * `setTimeout()` with a string parameter
+      * `setInterval()` with a string parameter
+      * `execScript()`
+      * `new Function(...)`
+      * `javascript:` URLs
+  * No duplications of identities in:
+      * function arguments in function signatures -- `function foo(a, b, a) { }`
+      * keys in object literals -- `obj = { a: 1, a: 1 }`
+      * cases in `switch` statements
+      * class members -- `class Foo { bar() { }; bar() { }; }`
+  * No Regular expression irreularities, including:
+      * empty character class in Regular Expressions -- `/^abc[]/`
+      * ASCII control characters in Regular Expressions -- `\x18`
+      * invalid Regular Expressions
+  * No useless escape characters in Strings, templates, and Regular Expressions -- `"\'"`, `'\"'`, `/\@/`, etc.
+  * No unusual declarations, including:
+      * variable declarations within `switch-case` blocks
+      * function declarations within loops -- `for (let x = 0; x < 10; x++) { (function() { return x; })(); }`
+      * `new Object` declarations -- use `{}` object literal
+      * `new Symbol` declarations -- Symbol is not intended to be called as a constructor.
+  * No unusual or problematic reassignments, including:
+      * const reassignment -- `const a = 1; a = 2;`
+      * exception reassignment in `catch` blocks -- `catch(err) { err = 1; }`
+      * function reassignment -- `function foo() { }; foo = bar;`
+  * No empty uncommented blocks, including:
+      * empty functions without -- `function foo { }`
+      * empty conditional or control blocks -- `if (foo) { }`
+      * case fallthrough -- `switch(x) { case a: doSomething(); case b: doSomething(); break; }`
+  * No unmodified loop conditions -- `foo = true; while (foo) { /* foo never modified */ }`
+  * No constant conditional structures -- `while (true) { }`
+  * No lonely `if` statement inside of an `else` statement -- use `else if` insteads
+  * No `else` statement when the `if` statement performs a `return` as the `else` statement is redundant.
+  * No `async` when `await` is missing
+  * No use of `this` outside classes or class-like objects
+  * No path concatination with `__dirname` or `__filename` -- `let fullPath = __dirname + '/foo.js';` -- use `path.join(__dirname, ...);` instead
+
+### Confusing Syntax and Gotchas
+  * No confusing syntax, including:
+      * `void` code lines -- this returns a true `undefined` which is no longer needed in ES6. The behavior is nuanced and may confuse a developer who is not familiar with its quirks.
+      * absent parenthesis in `new <Class>` statements -- `new Person` -- It isn't entirely clear that the constructor is being called and isn't consistent.
+      * `new require('')` declarations -- It isn't clear if the required code returns a constructor
+      * Regular Expressions that looks like division -- `/=foo` -- use `/\=foo` instead
+      * unsafe negotiations -- `-a + b` -- did the author mean `b - a` or `-(a + b)`?
+      * confusing arrow function -- `var x = a => 1 ? 2 : 3;` did the author mean `function (a) { return 1 ? 2 : 3 };` or `var x = a >= 1 ? 2 : 3;`
+      * `.call()` or `.apply()` code lines that do nothing -- `foo.call(undefined, 1,2, 3);` -- did the author intend this to do nothing?
+  * No code which can cause unexpected behaviors, including:
+      * unreachable code -- `function x() { return 1; let y = 1; }`
+      * unsafe `finally` statements within `try-catch` block -- `finally { throw new Error; }`
+      * `throw` of literal values -- `throw 1;` -- `Error` or an object should be thrown
+  * No confusing comparison operations, including:
+      * use of `==` and `!=` -- use `===` and `!==` instead
+      * comparison of `NaN` -- uses `isNaN()` instead
+      * comparisons for a literal `-0`
+      * use of yoda conditions -- `if ('red' === color) { }`
+      * extra boolean cast -- `if (Boolean(foo))`
+      * unneeded ternary operators -- `let isYes = (answer === 1) ? true : false`
+      * assignment operators in conditional structures -- `if (a = 1) { }`
+  * No confusing assignment statments, including:
+      * floating decimals -- `let [x, y, z] = [.5, 2., -.7]`
+      * multi-assign statements -- `let a = b = c = 5;`
+      * empty destructuring patterns -- `let {} = foo; let [] = bar`
+
+### Deprecations
+  * No `caller` or `callee` code lines they are deprecated
+  * No labels -- `gotoLabel:`
+  * No use of `__iterator__` is it deprecated
+  * No use of `__proto__` it was removed in ES3.1
+  * No `new Buffer` declarations -- it's deprecated
+  * No Octal literal numeral -- `let num = 071` -- they are deprecated. `let num = \o71` is okay though.
+  * No Octal escapes in strings -- `let foo = '\251';` -- they are deprecated.
 
 
 # ESLint Rules
