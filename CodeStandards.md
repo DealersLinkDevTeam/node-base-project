@@ -513,8 +513,8 @@ try {
 ```
 
 
-## Variable Scoping
-  * Variables should be scoped to the current block using `let` or `const`.
+## Variables and Variable Scoping
+  * Variables should be scoped to the current block using `let` or `const`. `var` should not be used.
   * Variables should not shadowed by using identical names within a lower scope.
   * No redeclaration of Classes or restricted names.
   * No variable usage before variable definition.
@@ -573,9 +573,9 @@ The following section contains best coding practices and design patterns.
   * Comments with `TODO`, `FIXME`, `NOTE` should be removed before pushing to production
   * Recommend that cyclomatic complexity is kept under 15
   * Require used of valid `typeof` comparisons
-  * Require consistent return values  
+  * Require that consistent `return` values are given either always returning a value or never returning a value within a function. 
   * Require a `default` case in `switch` blocks
-  * No multiline strings -- Use template literals instead
+  * No multi-line strings -- Use template literals instead
   * Require `this` to be aliased to `self` when context passing`
   * Require JSX Code to use Double-Quotes where possible
   * Require normal strings to use Single-Quotes where possible
