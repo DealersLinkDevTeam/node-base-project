@@ -5,12 +5,15 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 // Prettifying
 const prettier = require('gulp-prettier');
+// Documentation Generation
+const jsdoc = require('gulp-jsdoc3');
 
 const config = require('./build.config');
 const prettyConf = require('./.prettierrc.json');
 
 const devFolder = config.devFolder;
 const testFolder = config.testFolder;
+const docsFolder = config.docsFolder;
 
 const allJSFiles = [
   '*.js',
@@ -60,5 +63,12 @@ gulp.task('pretty', () => {
       return file.base;
     }));
 });
+
+gulp.task('docs', (done) => {
+  gulp
+    .src(['README.md', `./${devFolder}**/*.js`, `./${config.main}`], { read: false })
+    .pipe(jsdoc({ opts: { destination: docsFolder } }, done));
+});
+
 
 gulp.task('default', ['test']);

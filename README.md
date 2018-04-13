@@ -51,6 +51,9 @@ then sent through ESLint in fix mode to correct some minor styling issues that P
 no piping through ESLint is desired, then the `pretty` action in the `gulpfile.js` can be modified. However, if this is
 desired then all formatting rules in `.eslintrc.json` should be removed.
 
+## Generate JSDocs -- `npm run docs`
+Automatic generation of JSDocs using `index.js` as the base file, and placing documentation into the `docs/` folder.
+
 # Configuration / Information
 
 ## TravisCI Integration

@@ -1,1 +1,1 @@
-module.exports = { main: 'index.js', devFolder: 'lib/', testFolder: 'test/' };
+module.exports = { main: 'index.js', devFolder: 'lib/', testFolder: 'test/', docsFolder: 'docs/' };
