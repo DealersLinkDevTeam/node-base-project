@@ -6,6 +6,7 @@ A basic, pre-bootstraped NodeJS repo to quick start your NodeJS projects.
 * **Build Task Runner** -- [Gulp](https://gulpjs.com/) & Basic Gulp Script
 * **Code Quality and Linting** -- [ESLint](https://eslint.org/) & ESLint Configuration
 * **Code Reformatting** -- [Prettier](https://prettier.io/) & Prettier Configuration
+* **Documentation Generation** -- [JSDoc3](https://www.npmjs.com/package/jsdoc)
 * **Unit and Integration Test Runner** -- [Mocha](https://mochajs.org/)
 * **Git Commit & Push Hooks** -- [HuskyJS](https://github.com/typicode/husky) & Pre-configured hooks
 * **Test Assertion Library** -- [ChaiJS](http://www.chaijs.com/)
