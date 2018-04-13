@@ -136,17 +136,20 @@ code.
   * loads dependencies asynchronously in environments which support it natively
   * binds dependancies at initial interpretation time.
   * assist packaging tools in tree-shaking to remove unneeded code.
+  * can export multiple classes which can be selectively imported.
 
 ***`require` / `module.exports`***
   * part of CommonJS/Node functionality
   * loads dependencies synchronously
-  * bind dependencies at runtime, allowing for dynamic loading of resources
+  * bind dependencies at runtime, allowing for dynamic or conditional loading of resources
   * does not reveal dependencies for tree-shaking
+  * must export a specific class or bound export to be required.
 
-Use `import` in most circumstances where you are loading dependencies
-Use `export` in cases where the module is then paired with `import`
-Use `require` in cases where you need to load the dependency dynamically.
-Use `module.exports` where the module will be used with `require`.
+Use `import` in most circumstances where you are loading dependencies and use `export` in cases where the module is then
+paired with `import`.
+
+Use `require` in cases where you need to load the dependency dynamically or conditionally, and use `module.exports`
+where the module will be used with `require`.
 
 ## Structure and Formatting
 
