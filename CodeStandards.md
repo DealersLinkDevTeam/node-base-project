@@ -580,7 +580,7 @@ The following section contains best coding practices and design patterns.
   * Require JSX Code to use Double-Quotes where possible
   * Require normal strings to use Single-Quotes where possible
   * Recommend code lines be less than 120 characters in length
-  * No quoted properties unless is it necessary -- `var obj = { "a": 1 };`
+  * No quoted properties unless it is necessary -- `var obj = { "a": 1 };`
   * Require shorthand assignment operators when possible -- `x += y;` instead of `x = x + 1;`
   * Require semicolons at line/statement ending
   * Require `super()` is called in the constructor of extended classes
@@ -597,6 +597,7 @@ The following section contains best coding practices and design patterns.
 
 ### Poor Design and Bad Syntax
   * No extra semicolons -- `a++;;`
+  * No labels -- `gotoLabel:`
   * No expressions which do no alter execution state -- `0; {0}`
   * No `console` or `debugger` code lines in production code.
   * No `alert`, `confirm`, or `prompt` code lines in client-side code
@@ -664,13 +665,12 @@ The following section contains best coding practices and design patterns.
       * empty destructuring patterns -- `let {} = foo; let [] = bar`
 
 ### Deprecations
-  * No `caller` or `callee` code lines they are deprecated
-  * No labels -- `gotoLabel:`
-  * No use of `__iterator__` is it deprecated
-  * No use of `__proto__` it was removed in ES3.1
-  * No `new Buffer` declarations -- it's deprecated
-  * No Octal literal numeral -- `let num = 071` -- they are deprecated. `let num = \o71` is okay though.
-  * No Octal escapes in strings -- `let foo = '\251';` -- they are deprecated.
+  * No `caller` or `callee` -- deprecated in ES5
+  * No use of `__iterator__` -- was 3rd party library deprecated in favor of iterator functions in ES5/ES6
+  * No use of `__proto__` -- removed in ES3.1
+  * No `new Buffer` declarations -- deprecated in Node v5
+  * No Octal literal numeral -- `let num = 071` -- deprecated in ES6. `let num = \o71` is okay though.
+  * No Octal escapes in strings -- `let foo = '\251';` -- deprecated in ES6
 
 
 # ESLint Rules
