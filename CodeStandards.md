@@ -79,7 +79,9 @@ let totalAge = animals.reduce((sum, animal) => { return sum + animal.age; }, 0);
 Effort should be made to use Promises and Promise chaining when possible instead of callbacks.  Further, when dealing
 with modules(libraries) which require connectivity of some form, but do not provide Promises, then the
 [Bluebird](https://www.npmjs.com/package/bluebird) `.promisify()` functionality should be used to create Promisified
-versions of such functions.
+versions of such functions.  Built-in CommonJS(Node) libraries which are structured to use callbacks (e.g. `fs`), can
+make use of the [`util.promisify()`](https://nodejs.org/api/util.html#util_util_promisify_original) functionality added
+in NodeJS 8.0.0
 
 Regarding Promises and Promise Chains, they should be strung together to avoid 'stacked' promises. Take for example,
 the following Promise code:
@@ -91,10 +93,10 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 
 let cache = redis.createClient(...);
 // Nested Promises
-cache.get('Key')
+cache.getAsync('Key')
   .then((result) => {
     if (result) {
-      cache.get(result)
+      cache.getAsync(result)
         .then((inner_result) => {
           // Do Something
         })
@@ -110,12 +112,12 @@ cache.get('Key')
 This can be more cleanly written to remove the nesting as follows:
 ```js
 // Promise Chaining
-cache.get('Key')
+cache.getAsync('Key')
   .then((result) => {
-    if (result) {
-      return cache.get(result);
+    if (!result) {
+      return Promise.reject('No data');
     }
-    return null;
+    return cache.getAsync(result);
   })
   .then((result) => {
     // Do something
@@ -125,11 +127,12 @@ cache.get('Key')
   });
 ```
 
-Take note how the latter code is shorter (274 vs 214 chars) and does not extend to the right with each nested level.
+Take note how the latter code is shorter (284 vs 249 chars) and does not extend to the right with each nested level.
 
 ### ES6 `import` vs. `require`
-Effort should be made to use `import` and `require` in the appropriate circumstances to assist in reduction of unneeded
-code.
+Effort should be made to use `import` and `require` in the appropriate circumstances to assist in the reduction of
+unneeded code.  For NodeJS, familiarity with the [`Modules`](https://nodejs.org/api/modules.html#modules_require_main)
+subsystem is assumed.
 
 ***`import` / `export`***
   * was introduced in ES6 and in many cases must be transpiled, reducing it to a `require` statement in such instances.
@@ -193,7 +196,7 @@ class Widget {
 
 ### Indenting
 Indentation should be performed using 2 spaces. The body `case` blocks should be indented an additional level, even if
-no block indicators are present. Space indentation looks identical in all editors and makes for better readability
+no block indicators are present. Space indentation looks identical within all editors and makes for better readability
 across platforms and editors.
 
 ```js
@@ -214,19 +217,19 @@ function doSomething() {
 ```
 
 ### Spacing
-  * Tabs are no allowed in the code outside of string literals
+  * Tabs are not allowed in the code outside of string literals
   * Tabs and spaces should not be mixed
   * Irregular whitespace characters (e.g. non-breaking space, mathematical short-space, etc.) are not allowed in code outside of string literals and comments.
   * Consecutive spaces are not allowed in blocks of code outside of string literals and comments
   * Comments should begin with at least one space, block comments should end with at least one space
-  * Commas should have have no space before them and a single space after them.
+  * Commas should have no space before them and a single space after them.
   * Semicolons that appear on the same line as multiple statements should have no spaces before and one space after.
   * Blocks that begin on the same line as another statement should have a single space before the block start (`{`).
   * Spaces should appear immediately inside single-line blocks between the braces and the contents of the block.
   * No spaces should appear immediately inside parentheses between the parens and the contents.
   * No spaces should appear immediately inside array literal notations between the brackets and tokens.
   * No spaces should appear immediately inside computed properties between the brackets and the value.
-  * One or more spaces should appear after the colon for a object key, but no space should be used between the key and the colon.
+  * One or more spaces should appear after the colon for an object key, but no space should be used between the key and the colon.
   * Colons inside switch-case statements should have no space before and a single-space or newline after.
   * No spaces should appear around the scope (dot `.`) operator when separating properties
   * Infix operators should have spaces on both sides of the operator.
@@ -239,7 +242,7 @@ function doSomething() {
   * Arrow notation should have spaces on each side of the arrow.
   * Template tagged literals should have no spaces between the tag and the back-tick (\`).
   * Template Expressions should have no spaces immediately inside the curly braces.
-  * The rest/spread operator (`...`) should only have a space before it when in a list, but not other spacing otherwise.
+  * The rest/spread operator (`...`) should have a space before it when in a list, but no other spacing otherwise.
   * Generator functions should have a space before the star (`*`) and no space after the star.
   * Yield statements with a start should have a space before the star (`*`) and no space after the star.
 
@@ -516,7 +519,7 @@ obj.func1().func2()         // Inconsistent use of line breaks
   .func3().func4();
 
 // OK BUT NOT GOOD
-obj                         // Object appears on line by itself
+obj                         // Object appears on the line by itself
   .func1()
   .func2()
   .func3();
@@ -602,7 +605,7 @@ try {
   * No redeclaration of Classes or restricted names.
   * No variable usage before variable definition.
   * No unused variables.
-  * No self assignment
+  * No self-assignment
   * No `undefined` assignment
 
 ```js
