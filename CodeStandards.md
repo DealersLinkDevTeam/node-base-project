@@ -148,8 +148,8 @@ subsystem is assumed.
   * does not reveal dependencies for tree-shaking
   * must export a specific class or bound export to be required.
 
-Use `import` in most circumstances where you are loading dependencies and use `export` in cases where the module is then
-paired with `import`.
+Use `import` in most circumstances where you are loading dependencies and use `export` in cases where the module is
+then paired with `import`.
 
 Use `require` in cases where you need to load the dependency dynamically or conditionally, and use `module.exports`
 where the module will be used with `require`.
@@ -157,7 +157,8 @@ where the module will be used with `require`.
 ## Structure and Formatting
 
 ### File Beginning
-The first line of the file should be a comment that contains the relative path to the project root and current filename.
+The first line of the file should be a comment that contains the relative path to the project root and current
+filename.
 
 ```js
 // ./index.js
