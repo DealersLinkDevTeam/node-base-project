@@ -6,13 +6,19 @@ In general, this code style guide exists to ensure the following:
   * Consistent style code regardless of the author
   * Ease of maintainability when reading through a codebase or calculating diffs
   * Enforcement of coding best practices for code structure and performance
-  * Ease of acquiring and onboarding new talent
+  * Ease of acquiring and on-boarding new talent
 
 The ES6 Style Guide and AirBnB Style Guides are used to ensure that code conforms to the leading industry standards
 which are used by the majority of Node developers within the Software industry.  These style and structure guidelines
 are supported through the automated tooling of ESLint which has the ability to correct many of the issues outlined in
 this guide.  Please see the [ESLint Rules](https://github.com/DealersLinkDevTeam/node-base-project/wiki/ESLint-Rules)
 for additional details.
+
+Consideration should be given for [language support](https://node.green/) in NodeJS, Browsers, and the environment where
+the code will run.
+  * Most Node projects should run on NodeJS 9.X, 10+ builds of NodeJS are still experimental.
+  * AWS Lambda only supports NodeJS 6.2
+  * Most modern browsers support ES2015; however transpilation using Babel is recommended for backward compatibility with older browsers.
 
 ## Naming and Usage
   * Identifiers must be at least 2 characters in length, but no more than 40 characters in length.
