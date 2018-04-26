@@ -103,3 +103,25 @@ To show the current version of Node in used, use the following:
 ```shell
 nvm current
 ```
+
+# Recommended Global Packages
+The following packages are recommended to be installed globally (e.g. `npm i -g [package]`) for consistent tooling across environments:
+ * eslint@4
+ * gulp@3.9
+ * gulp-cli
+ * mocha@5
+ * npm
+ * prettier
+
+## ExpressJS Specific Global Packages
+ * express-generator
+
+## React Specific Global Packages
+ * create-react-app
+ * create-react-class
+
+## Tooling Specific Global Packages
+ * nsp -- Package Deprecation and Security Warning Checking
+ * snyk -- Package Deprecation and Security Warning Checking
+ * pm2 -- Process Manager Daemon for Node applications
+ * redis-commander -- Redis exploration/debugging Web Application
