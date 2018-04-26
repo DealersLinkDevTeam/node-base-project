@@ -90,6 +90,10 @@ The coverage update can also be run locally by updating the `package.json` file 
 npm run local-coverage
 ```
 
+## Node Version and Standards
+Ensuring that a standardized version of NodeJS is being used across projects is important for consistency of
+environment. More information on configuring the Node environment can be found in the [NodeJS Standards](https://github.com/DealersLinkDevTeam/node-base-project/wiki/NodeJS-Standards) documentation.
+
 ## Code Standards / ES6 Linting / Code Cleanup
 
 These projects use two tools, `eslint` and `prettier` to assist in conforming code to proper standards. The

@@ -1,4 +1,4 @@
-# Code Standards
+# Code Standards and Style Guide
 The following is an outline of the basic code standards as recommended by the ES6 Style Guide and supplemented by the
 AirBnB style guide in places where the ES6 style guide only makes recommendations for the purposes of consistent code.
 
@@ -15,10 +15,12 @@ this guide.  Please see the [ESLint Rules](https://github.com/DealersLinkDevTeam
 for additional details.
 
 Consideration should be given for [language support](https://node.green/) in NodeJS, Browsers, and the environment where
-the code will run.
-  * Most Node projects should run on NodeJS 9.X, 10+ builds of NodeJS are still experimental.
-  * AWS Lambda only supports NodeJS 6.2
+the code will run. For information on setting up your environment to run the appropriate version of NodeJS please
+see the [NodeJS Standards Guide](https://github.com/DealersLinkDevTeam/node-base-project/wiki/NodeJS-Standards)
+  * Most Node projects should run on NodeJS 9.X
+  * AWS Lambda only supports NodeJS 6.2 and should be used
   * Most modern browsers support ES2015; however transpilation using Babel is recommended for backward compatibility with older browsers.
+  * NodeJS 10.x contains breaking changes and should not be used at this time.
 
 ## Naming and Usage
   * Identifiers must be at least 2 characters in length, but no more than 40 characters in length.
