@@ -41,11 +41,14 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | 
   3. Test the `nvm` command on the command line
 
 ## On Windows 10
-It is highly recommended that the native NodeJS installation for Windows is not used. Instead the
-[Linux Subsystem for Windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10) and
-[Ubuntu for Windows](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0) is installed. Once these are
-installed on the Windows 10 system, the running Node and installation can be performed from the Ubuntu shell by
-following the steps above.  In this way, a consistent development experience can be maintained across operating systems.
+The native NodeJS installation for Windows is not recommended. Instead perform the following:
+  1. Install [Linux Subsystem for Windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+  2. Install [Ubuntu for Windows](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0) from the Windows Store (it's free).
+  3. Reboot as required
+  4. Open the Ubuntu Terminal Shell
+  5. Follow the steps from the Ubuntu installation above.
+
+***Note:*** Running Node in Windows this way, from the Ubuntu Shell, will be consistent with how it will run in other environments, specifically AWS.
 
 # Using NVM
 
@@ -57,8 +60,6 @@ For example:
 nvm install 6.2
 nvm install 9
 ```
-
-***NOTE:*** You must run `npm i -g` for your global dependencies for each version of Node in
 
 ## Installing the most recent version of Node using `nvm`
 You can install the move recent version of Node using the following:
@@ -105,7 +106,7 @@ nvm current
 ```
 
 # Recommended Global Packages
-The following packages are recommended to be installed globally (e.g. `npm i -g [package]`) for consistent tooling across environments:
+The following packages are recommended to be installed globally (e.g. `npm i -g [package]`) for consistent tooling across environments. ***NOTE:*** You must run `npm i -g` for your global dependencies for each version of Node installed with `nvm` after it has been set active with `nvm use`.
  * eslint@4
  * gulp@3.9
  * gulp-cli
