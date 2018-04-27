@@ -9,10 +9,17 @@
       "ecmaVersion": 8,
       "sourceType": "module",
       "ecmaFeatures": {
-          "jsx": true
+          "jsx": true,
+          "experimentalObjectRestSpread": true
       }
   },
-  "extends": "eslint:recommended",
+  "plugins": [
+    "react"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
     // Possible Syntax
     "no-console": "warn",
@@ -140,6 +147,10 @@
     "rest-spread-spacing": "error",
     "symbol-description": "error",
     "template-curly-spacing": "error",
-    "yield-star-spacing": ["error", {"before": true, "after": false}]
+    "yield-star-spacing": ["error", {"before": true, "after": false}],
+
+    // React Rules
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   }
 }

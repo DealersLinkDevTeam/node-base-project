@@ -27,7 +27,7 @@ source $(brew --prefix nvm)/nvm.sh >> ~/.bash_profile
   4. Run the following commands:
 ```shell
 source ~/.bash_profile
-echo $MVM_DIR
+echo $NVM_DIR
 ```
   5. You should see the `~/.nvm` folder echoed back in the terminal
   6. Test the `nvm` command on the command line
