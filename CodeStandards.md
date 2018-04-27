@@ -22,6 +22,8 @@ see the [NodeJS Standards Guide](https://github.com/DealersLinkDevTeam/node-base
   * Most modern browsers support ES2015; however transpilation using Babel is recommended for backward compatibility with older browsers.
   * NodeJS 10.x contains breaking changes and should not be used at this time.
 
+  ***IMPORTANT NOTE:*** **When developing React or other client-side code, you must flip the line at the beginning of `.eslintrc.json` from `"browser": false,` to `"browser": true,`.**
+
 ## Naming and Usage
   * Identifiers must be at least 2 characters in length, but no more than 40 characters in length.
   * Identifiers must be camelcase, but may contain a beginning or trailing underscore.
