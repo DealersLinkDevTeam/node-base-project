@@ -15,6 +15,8 @@ A basic, pre-bootstraped NodeJS repo to quick start your NodeJS projects.
 * **Continuous Integration** -- Basic [TravisCI Configuration](https://docs.travis-ci.com/user/customizing-the-build/)
 * **Environment Unification** -- [Cross Env](https://www.npmjs.com/package/cross-env) (for environment variables)
 
+***Note:*** It is important to ensure that `"husky": "^0.15.0-rc.13` or better is installed when using Node 8.X or better.
+
 ## How to use this repo
 To use this repository as a base for your own projects, simply clone this repo and then remove .git folder from the
 project root.
