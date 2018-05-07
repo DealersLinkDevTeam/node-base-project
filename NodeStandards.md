@@ -21,8 +21,8 @@ mkdir ~/.nvm
 ```
   3. Edit your `~/.bash_profile` and add the following lines:
 ```
-export NVM_DIR=~/.nvm >> ~/.bash_profile
-source $(brew --prefix nvm)/nvm.sh >> ~/.bash_profile
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
 ```
   4. Run the following commands:
 ```shell
