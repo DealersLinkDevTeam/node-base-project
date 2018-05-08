@@ -1,4 +1,26 @@
-# Code Standards and Style Guide
+# Table of Contents
+  1. [Code Standards Overview](#standards)
+  2. [Development Methodologies](#methodologies)
+      1. [Functional Programming](#functional)
+      2. [Promises](#promises)
+      3. [ES6 `import` vs. `require`](#importrequire)
+  3. [Naming and Usage](#naming)
+  4. [Structure and Formatting](#structure)
+      1. [File Beginning](#filestart)
+      2. [Comment Blocks](#commentblocks)
+      3. [Internal Code Documentation](#jsdocs)
+      4. [Indentation](#indentation)
+      5. [Spacing](#spacing)
+      6. [New Lines](#newlines)
+      7. [Variables and Variable Scoping](#vars)
+      8. [Best Practices](#bestpractice)
+      9. [Poor Structure and Syntax](#poorsyntax)
+      10. [Confusing Syntax](#confusingsyntax)
+      11. [JSX Specific Standards](#jsx)
+      12. [Deprecations](#deprecations)
+
+<a name="standards"></a>
+# Code Standards and Style Guide Overview
 The following is an outline of the basic code standards as recommended by the ES6 Style Guide and supplemented by the
 AirBnB style guide in places where the ES6 style guide only makes recommendations for the purposes of consistent code.
 
@@ -24,34 +46,11 @@ see the [NodeJS Standards Guide](https://github.com/DealersLinkDevTeam/node-base
 
   ***IMPORTANT NOTE:*** **When developing React or other client-side code, you must flip the line at the beginning of `.eslintrc.json` from `"browser": false,` to `"browser": true,`.**
 
-## Naming and Usage
-  * Identifiers must be at least 2 characters in length, but no more than 40 characters in length.
-  * Identifiers must be camelcase, but may contain a beginning or trailing underscore.
-  * Identifiers should be descriptive for what the value represents
-  * Identifiers should avoid programatic terms (e.g. 'Factory', 'Descriptor') and should describe what the object represents rather than the design pattern represented.
-  * Class Identifiers should be capitalized (e.g. Class, Factory, etc.) to distinguish the name from other variables.
-  * Iterator variables should use a consistent and descriptive name. For example: `itr`, `jtr`, `ktr` in `for` loops, `key` in `for...of` and `for...in` loops.
+<a name="methodologies"></a>
+# Development Methodologies
 
-```js
-  // Bad
-  let x = 1;                                                  // BAD; too short
-  let AVeryLongButOtherwisePerfectlyLegalVariableName = 1;    // BAD; too long
-  let WidgetFactoryMethod = (() => { return new Widget(); }); // BAD; this is a design pattern descriptor
-  let snake_case_variable = 1                                 // BAD; variable is not camelcase
-  // OK but not descriptive
-  let _x = 1;
-  let y_ = 2;
-  // Good (Better)
-  let itr = 1;                                                // Good this is a descriptive iterator name
-  let CreateWidget = (() => { return new Widget(); });        // This is a descriptive method of what it does
-  for (let jtr = 1; jtr < 10; jtr++) {
-    // Do something...
-  }
-```
-
-## Development Methodologies
-
-### Functional Programming
+<a name="functional"></a>
+## Functional Programming
 Effort should be made to make use of JavaScripts (ES6) [Functional Programming Methodologies](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84)
 and high-level functions.
 
@@ -85,7 +84,8 @@ let names = animals.map((animal) => { return animal.name; });
 let totalAge = animals.reduce((sum, animal) => { return sum + animal.age; }, 0);
 ```
 
-### Promises, Promise Chaining, and Callback functions
+<a name="promises"></a>
+## Promises, Promise Chaining, and Callback functions
 Effort should be made to use Promises and Promise chaining when possible instead of callbacks.  Further, when dealing
 with modules(libraries) which require connectivity of some form, but do not provide Promises, then the
 [Bluebird](https://www.npmjs.com/package/bluebird) `.promisify()` functionality should be used to create Promisified
@@ -139,7 +139,8 @@ cache.getAsync('Key')
 
 Take note how the latter code is shorter (284 vs 249 chars) and does not extend to the right with each nested level.
 
-### ES6 `import` vs. `require`
+<a name="importrequire"></a>
+## ES6 `import` vs. `require`
 Effort should be made to use `import` and `require` in the appropriate circumstances to assist in the reduction of
 unneeded code.  For NodeJS, familiarity with the [`Modules`](https://nodejs.org/api/modules.html#modules_require_main)
 subsystem is assumed.
@@ -164,9 +165,37 @@ then paired with `import`.
 Use `require` in cases where you need to load the dependency dynamically or conditionally, and use `module.exports`
 where the module will be used with `require`.
 
-## Structure and Formatting
+<a name="naming"></a>
+# Naming and Usage
+  * Identifiers must be at least 2 characters in length, but no more than 40 characters in length.
+  * Identifiers must be camelcase, but may contain a beginning or trailing underscore.
+  * Identifiers should be descriptive for what the value represents
+  * Identifiers should avoid programatic terms (e.g. 'Factory', 'Descriptor') and should describe what the object represents rather than the design pattern represented.
+  * Class Identifiers should be capitalized (e.g. Class, Factory, etc.) to distinguish the name from other variables.
+  * Iterator variables should use a consistent and descriptive name. For example: `itr`, `jtr`, `ktr` in `for` loops, `key` in `for...of` and `for...in` loops.
 
-### File Beginning
+```js
+  // Bad
+  let x = 1;                                                  // BAD; too short
+  let AVeryLongButOtherwisePerfectlyLegalVariableName = 1;    // BAD; too long
+  let WidgetFactoryMethod = (() => { return new Widget(); }); // BAD; this is a design pattern descriptor
+  let snake_case_variable = 1                                 // BAD; variable is not camelcase
+  // OK but not descriptive
+  let _x = 1;
+  let y_ = 2;
+  // Good (Better)
+  let itr = 1;                                                // Good this is a descriptive iterator name
+  let CreateWidget = (() => { return new Widget(); });        // This is a descriptive method of what it does
+  for (let jtr = 1; jtr < 10; jtr++) {
+    // Do something...
+  }
+```
+
+<a name="structure"></a>
+# Structure and Formatting
+
+<a name="filestart"></a>
+## File Beginning
 The first line of the file should be a comment that contains the relative path to the project root and current
 filename.
 
@@ -178,7 +207,8 @@ filename.
 // ./app/lib/base.js
 ```
 
-### Comment Blocks
+<a name="commentblocks"></a>
+## Comment Blocks
 Large comments should use the JSDocs comment format when providing information.
 ```js
 
@@ -188,7 +218,8 @@ Large comments should use the JSDocs comment format when providing information.
  */
 ```
 
-### Internal Code Documentation
+<a name="jsdocs"></a>
+## Internal Code Documentation
 [JSDoc](http://usejsdoc.org/) style comments should appear before `class` and `function` declarations when automatic
 documentation is desireable.
 
@@ -205,7 +236,8 @@ class Widget {
 }
 ```
 
-### Indenting
+<a name="indentation"></a>
+## Indentation
 Indentation should be performed using 2 spaces. The body `case` blocks should be indented an additional level, even if
 no block indicators are present. Space indentation looks identical within all editors and makes for better readability
 across platforms and editors.
@@ -227,7 +259,8 @@ function doSomething() {
 }
 ```
 
-### Spacing
+<a name="spacing"></a>
+## Spacing
   * Tabs are not allowed in the code outside of string literals
   * Tabs and spaces should not be mixed
   * Irregular whitespace characters (e.g. non-breaking space, mathematical short-space, etc.) are not allowed in code outside of string literals and comments.
@@ -410,7 +443,8 @@ function doSomething() {
   function *generator() { }     // GOOD;
 ```
 
-### New Lines
+<a name="newlines"></a>
+## New Lines
   * Files must end with a single newline
   * Files may begin with a single newline
   * No more than two consecutive newlines anywhere in the file
@@ -609,7 +643,7 @@ try {
 // (eof)
 ```
 
-
+<a name="vars"></a>
 ## Variables and Variable Scoping
   * Variables should be scoped to the current block using `let` or `const`. `var` should not be used.
   * Variables should not shadowed by using identical names within a lower scope.
@@ -663,6 +697,7 @@ try {
   let foo = undefined;
 ```
 
+<a name="bestpractice"></a>
 ## Best Practices
 The following section contains best coding practices and design patterns.
 
@@ -691,7 +726,8 @@ The following section contains best coding practices and design patterns.
   * Require `yield` in generator functions
   * Require description when using `Symbol`
 
-## Poor Design and Bad Syntax
+<a name="poorsyntax"></a>
+## Poor Structure and Syntax
   * No extra semicolons -- `a++;;`
   * No labels -- `gotoLabel:`
   * No expressions which do no alter execution state -- `0; {0}`
@@ -736,7 +772,8 @@ The following section contains best coding practices and design patterns.
   * No use of `this` outside classes or class-like objects
   * No path concatenation with `__dirname` or `__filename` -- `let fullPath = __dirname + '/foo.js';` -- use `path.join(__dirname, ...);` instead
 
-## Confusing Syntax and Gotchas
+<a name="confusingsyntax"></a>
+## Confusing Syntax
   * No confusing syntax, including:
       * `void` code lines -- this returns a true `undefined` which is no longer needed in ES6. The behavior is nuanced and may confuse a developer who is not familiar with its quirks.
       * absent parenthesis in `new <Class>` statements -- `new Person` -- It isn't entirely clear that the constructor is being called and isn't consistent.
@@ -762,6 +799,15 @@ The following section contains best coding practices and design patterns.
       * multi-assign statements -- `let a = b = c = 5;`
       * empty destructuring patterns -- `let {} = foo; let [] = bar`
 
+<a name="jsx"></a>
+## JSX Specific Standards
+  * Spaces between JSX properties should be added using `{' '}`, so that they are not accidentally removed in cleanup tools or by the JSX parser. For example:
+```
+  {propa}{' '}{propb} // Good
+  {propa} {propb}     // Bad
+```
+
+<a name="deprecations"></a>
 ## Deprecations
   * No `caller` or `callee` -- deprecated in ES5
   * No use of `__iterator__` -- was 3rd party library deprecated in favor of iterator functions in ES5/ES6

@@ -114,6 +114,8 @@ The following packages are recommended to be installed globally (e.g. `npm i -g 
  * npm
  * prettier
 
+`npm i -g eslint@4 gulp@3.9 gulp-cli mocha@5 npm prettier`
+
 ## ExpressJS Specific Global Packages
  * express-generator
 
