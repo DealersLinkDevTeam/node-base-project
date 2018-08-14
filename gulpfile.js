@@ -34,7 +34,7 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('test', ['lint'], () => {
+gulp.task('test', gulp.series('lint'), () => {
   return gulp
     .src('test.js', { read: false })
     .pipe(mocha())
@@ -71,4 +71,4 @@ gulp.task('docs', (done) => {
 });
 
 
-gulp.task('default', ['test']);
+gulp.task('default', gulp.series('test'));

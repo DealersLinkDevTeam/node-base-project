@@ -2,12 +2,12 @@
 Depending on the project, the correct version of NodeJS should be used for testing and building. To ensure that the
 proper version of NodeJS is running in your environment, the following criteria should be observed.
 
-  * Unless otherwise specified, projects should use the most recent 9.X build of NodeJS
+  * Unless otherwise specified, projects should use the most recent 10.X build of NodeJS
   * AWS Lambda Projects should use NodeJS 6.2
-  * NodeJS 10.X should not be used because it contains breaking changes
 
-To ensure that the proper version of NodeJS is in use the `nvm` tool should be installed and used to maintain the
-version of Node in use.
+Previously Node 9 was used because Node 10 has some breaking changes, but 10 has stabilized and 9 has reached End of Life.
+
+To ensure that the proper version of NodeJS is in use the `nvm` tool should be installed and used to maintain the version of Node in use.
 
 # Installing NVM
 
@@ -58,22 +58,20 @@ Once nvm is installed, you should install versions that you will use.
 For example:
 ```shell
 nvm install 6.2
-nvm install 9
+nvm install 10
 ```
 
 ## Installing the most recent version of Node using `nvm`
-You can install the move recent version of Node using the following:
+You can install the most recent version of Node using the following:
 ```shell
 nvm install node
 ```
-
-However, currently this is a 10.x version which has breaking changes and is not recommended.
 
 ## Setup default Node version
 You can set the default version of Node that is in use using the following:
 ```shell
 nvm alias default node
-nvm alias default 9
+nvm alias default 10
 nvm alias default [version]
 ```
 
@@ -82,7 +80,7 @@ You can switch version of Node in use using the following:
 ```shell
 nvm use node
 nvm use default
-nvm use 9
+nvm use 10
 nvm use [version]
 ```
 
@@ -108,13 +106,13 @@ nvm current
 # Recommended Global Packages
 The following packages are recommended to be installed globally (e.g. `npm i -g [package]`) for consistent tooling across environments. ***NOTE:*** You must run `npm i -g` for your global dependencies for each version of Node installed with `nvm` after it has been set active with `nvm use`.
  * eslint@4
- * gulp@3.9
  * gulp-cli
+ * gulp@4
  * mocha@5
  * npm
  * prettier
 
-`npm i -g eslint@4 gulp@3.9 gulp-cli mocha@5 npm prettier`
+`npm i -g eslint@4 gulp@4 gulp-cli mocha@5 npm prettier`
 
 ## ExpressJS Specific Global Packages
  * express-generator
